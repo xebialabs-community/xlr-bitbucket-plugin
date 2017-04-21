@@ -55,7 +55,11 @@ All Bitbucket Cloud tasks are based on api **/2.0/** prefix
 + `stash.DeclinePullRequest` : This task can be used to Decline a pull request
 + `stash.WaitForMerge` : This task waits and polls stash to check the status of a Pull request Merge Status
 + `stash.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository. Requires [Bitbucket Server Archive plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-archive/server/overview)
-+ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results
++ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results. eg. 
+```
+version[ ]*=[ ]*(\d+)
+
+```
 + `stash.DeleteBranch` : This task allows to delete a branch
 
 
