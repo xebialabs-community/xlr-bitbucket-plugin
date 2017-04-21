@@ -1,43 +1,119 @@
-# xlr-qtest-plugin
+# xlr-bitbucket-plugin
 
-This plugin offers an interface from XL Release to QA Symphony qtest API. 
+This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
+
+#### IMPORTANT ####
+All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
+All Bitbucket Cloud tasks are based on api **/2.0/** prefix
 
 # CI status #
 
-[![Build Status][xlr-qtest-plugin-travis-image]][xlr-qtest-plugin-travis-url]
-[![Codacy Badge][xlr-qtest-plugin-codacy-image] ][xlr-qtest-plugin-codacy-url]
-[![Code Climate][xlr-qtest-plugin-code-climate-image] ][xlr-qtest-plugin-code-climate-url]
+[![Build Status][xlr-bitbucket-plugin-travis-image]][xlr-bitbucket-plugin-travis-url]
+[![Codacy Badge][xlr-bitbucket-plugin-codacy-image] ][xlr-bitbucket-plugin-codacy-url]
+[![Code Climate][xlr-bitbucket-plugin-code-climate-image] ][xlr-bitbucket-plugin-code-climate-url]
+[![License: MIT][xlr-bitbucket-plugin-license-image] ][xlr-bitbucket-plugin-license-url]
+[![Github All Releases][xlr-bitbucket-plugin-downloads-image] ]()
 
-[xlr-qtest-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-qtest-plugin.svg?branch=master
-[xlr-qtest-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-qtest-plugin
-[xlr-qtest-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/0e664aaacd2f4010b091f0ef4ce1c7d0
-[xlr-qtest-plugin-codacy-url]: https://www.codacy.com/app/amitmohleji/xlr-qtest-plugin
-[xlr-qtest-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xlr-qtest-plugin/badges/gpa.svg
-[xlr-qtest-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xlr-qtest-plugin
+[xlr-bitbucket-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-bitbucket-plugin.svg?branch=master
+[xlr-bitbucket-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-bitbucket-plugin
+[xlr-bitbucket-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/0e664aaacd2f4010b091f0ef4ce1c7d0
+[xlr-bitbucket-plugin-codacy-url]: https://www.codacy.com/app/amitmohleji/xlr-bitbucket-plugin
+[xlr-bitbucket-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xlr-bitbucket-plugin/badges/gpa.svg
+[xlr-bitbucket-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xlr-bitbucket-plugin
+[xlr-bitbucket-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
+[xlr-bitbucket-plugin-license-url]: https://opensource.org/licenses/MIT
+[xlr-bitbucket-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-bitbucket-plugin/total.svg
 
 # Development #
 
 * Start XLR: `./gradlew runDockerCompose`
 
 # Type definitions #
-+ `qtest.Server`: Defines your qtest server endpoint to be used.
-+ `qtest.Login`: This task uses the provided credentials to login first time and get an OAuth token which is recieved as an output variable of type password. It can then be passed to other tasks for avoiding re-authentication
-+ `qtest.AddComment`: This task allows you to search for objects of any type under a project and then put a comment on those objects. You can use the data Query from qtest web interface
-+ `qtest.CreateTestCase` : This task allows you to add a new test case under a project. You can specify field properties by identifying the field Ids in your installation. You can also provide test steps with description and expected criteria
+
+### Commit Pull Triggers ###
+
++ `bitbucket.CommitTrigger` : This trigger can be used to poll Bitbucket cloud for triggering releases on code commit
++ `stash.CommitTrigger` :  This trigger can be used to poll Stash for triggering releases on code commit
+
+### Webhook (Push) ###
+
++ **Stash Push Webhook** `http://<xlr server:port>/api/extension/stash/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository. Requires [Web POST Hooks Plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview)
++ **Stash Pull Request Webhook** `http://<xlr server:port>/api/extension/stash/pr_webhook?template=<template name>` : This can be used to push Pull Request notifications. Requires [Pull Request Notifier Plugin](https://marketplace.atlassian.com/plugins/se.bjurr.prnfs.pull-request-notifier-for-stash/server/overview)
++ **Bitbucket Push Webhook** `http://<xlr server:port>/api/extension/bitbucket/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository.
+
+### Bitbucket Tasks ###
+
++ `bitbucket.CreatePullRequest` : This task helps to create a pull request
++ `bitbucket.MergePullRequest` : This task helps to Merge a pull request
++ `bitbucket.WaitForMerge` : This task waits and polls bitbucket to check the status of a Pull request Merge Status
++ `bitbucket.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository
+
+### Stash Tasks ###    
+
++ `stash.CreatePullRequest` : This task helps to create a pull request
++ `stash.MergePullRequest` : This task helps to Merge a pull request
++ `stash.DeclinePullRequest` : This task can be used to Decline a pull request
++ `stash.WaitForMerge` : This task waits and polls stash to check the status of a Pull request Merge Status
++ `stash.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository. Requires [Bitbucket Server Archive plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-archive/server/overview)
++ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results
++ `stash.DeleteBranch` : This task allows to delete a branch
+
+
     
-# Usage #
+# Commit Trigger Usage #
+
+* Stash commit trigger configuration
+![](images/stash/stashcommittrigger1.png)
+![](images/stash/stashcommittrigger2.png)
+
+# Bitbucket Tasks Usage #
    
 * Setup the server configuration
-![](serverConfig.png)
+![](images/bitbucket/config.png)
 
-* Setup a Login Task in Template. Login will generate and Oauth token that will be passed as output and can be stored in a variable and used in other tasks for further authorization.
-![](s1.png)
-* Setup a Add Comment Task in Template
-![](s2.png)
-* Setup a Add Test Case Task in Template
-![](s3.png)
+* Create pull request 
+![](images/bitbucket/createpullrequest.png)
 
+* Merge pull request
+![](images/bitbucket/mergepullrequest.png)
+
+* Wait for merge
+![](images/bitbucket/waitformerge.png)
+
+
+* Download Code 
+![](images/bitbucket/downloadcodezip.png)
+
+
+# Stash Tasks Usage #
+
+   
+* Setup the server configuration
+![](images/stash/config.png)
+
+* Create pull request 
+![](images/stash/createpullrequest.png)
+
+* Merge pull request
+![](images/stash/mergepullrequest.png)
+
+* Wait for merge
+![](images/stash/waitformerge.png)
+
+* Decline pull request
+![](images/stash/declinepullrequest.png)
+
+* Delete branch 
+![](images/stash/deletebranch.png)
+
+* Search file content
+![](images/stash/searchfilecontent.png)
+
+* Download Code 
+![](images/stash/downloadcodezip.png)
 
 # References #
-[QA Symphony's qtest API](https://support.qasymphony.com/hc/en-us/articles/201615649-qTest-API-v3-Specification)
+
+[Stash/Bitbucket Server REST API](https://developer.atlassian.com/stash/docs/latest/reference/rest-api.html)  
+[Bitbucket Cloud REST API](https://confluence.atlassian.com/bitbucket/use-the-bitbucket-cloud-rest-apis-222724129.html)
 
