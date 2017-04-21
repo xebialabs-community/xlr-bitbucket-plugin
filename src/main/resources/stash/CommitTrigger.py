@@ -61,9 +61,10 @@ else:
     # build a map of the commit ids for each branch
     newCommit = {}
     for branch in info["values"]:
-        branchid = branch["displayId"]
-        lastcommit = branch["latestCommit"]
-        newCommit[branchid] = lastcommit
+        if branch["displayId"] not in excludeBranches.strip(" ").strip(",").split(","):
+            branchid = branch["displayId"]
+            lastcommit = branch["latestCommit"]
+            newCommit[branchid] = lastcommit
 
     # trigger state is perisisted as json
     newTriggerState = json.dumps(newCommit)

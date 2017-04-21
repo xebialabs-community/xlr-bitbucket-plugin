@@ -4,15 +4,16 @@
 # FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
 #
 
-import json, time
+import json, time, re
 from xlrelease.HttpRequest import HttpRequest
 from xlrelease.CredentialsFallback import CredentialsFallback
 from org.apache.http.client import ClientProtocolException
 from com.xebialabs.overthere import CmdLine
 from com.xebialabs.overthere.util import CapturingOverthereExecutionOutputHandler, OverthereUtils
 from com.xebialabs.overthere.local import LocalConnection
-from com.xebialabs.overthere.OperatingSystemFamily import UNIX
 from java.lang import String
+import httplib
+from base64 import b64encode
 
 
 class StashClient(object):
@@ -31,9 +32,11 @@ class StashClient(object):
         return result_output
 
     def api_call(self, method, endpoint, **options):
+
         try:
             options['method'] = method.upper()
             options['context'] = endpoint
+            print options
             response = self.http_request.doRequest(**options)
         except ClientProtocolException:
             raise Exception("URL is not valid")
@@ -63,13 +66,43 @@ class StashClient(object):
         return {'output' : data, 'prid' : data['id']}
 
     def stash_mergepullrequest(self, variables):
-        endpoint = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/merge" % (variables['project'], variables['repository'], str(variables['prid']))
-        content = None
-        print "Merging Pull Request %s using endpoint %s" % (content, endpoint)
-        response = self.api_call('POST',endpoint, body = content, contentType="application/json")
+        endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
+        print "Getting Pull Request %s current version using endpoint %s" % (str(variables['prid']), endpoint_get)
+        response = self.api_call('GET', endpoint_get, contentType="application/json")
+        data = json.loads(response.getResponse())
+        content = '{}'
+        endpoint_post = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/merge?version=%s" % (variables['project'], variables['repository'], str(variables['prid']), data['version'])
+        print "Merging Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post)
+        response = self.api_call('POST',endpoint_post,body=content, contentType="application/json")
         data = json.loads(response.getResponse())
         print "Pull Request %s merged sucessfully with STATE : %s" % ( data['id'], data['state'])
         return {'output' : data}
+
+    def stash_declinepullrequest(self, variables):
+        endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
+        print "Getting Pull Request %s current version using endpoint %s" % (str(variables['prid']), endpoint_get)
+        response = self.api_call('GET', endpoint_get, contentType="application/json", Origin = variables['server']['url'])
+        data = json.loads(response.getResponse())
+        content = '{}'
+        endpoint_post = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/decline?version=%s" % (variables['project'], variables['repository'], str(variables['prid']), data['version'])
+        print "Declining Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post)
+        response = self.api_call('POST',endpoint_post,body=content, contentType="application/json")
+        data = json.loads(response.getResponse())
+        print "Pull Request %s decline sucessfully with STATE : %s" % ( data['id'], data['state'])
+        return {'output' : data}
+
+
+    def stash_searchfilecontent(self,variables):
+        endpoint = "/rest/api/1.0/projects/%s/repos/%s/browse/%s?at=refs/heads/%s" % (variables['project'], variables['repository'], str(variables['filepath']), variables['branch'])
+        print "Parsing file content for file :%s for branch %s" % (str(variables['filepath']), variables['branch'] )
+        response = self.api_call('GET', endpoint, contentType="application/json")
+        data = json.loads(response.getResponse())
+        pattern = re.compile(variables['pattern'])
+        for item in data['lines']:
+            result = pattern.search(item['text'])
+            if result != None and len(result.groups()) == 1:
+                return {'group0' : result.group(0), 'group1' : result.group(1)}
+
 
     def stash_waitformerge(self, variables):
         endpoint = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
@@ -86,6 +119,38 @@ class StashClient(object):
                 time.sleep(variables['pollInterval'])
         return {'output' : data}
 
+    # TODO -  apache cleint doesnt support body with DELETE method. add ability to xlrelease.HTTPRequest
+    def stash_deletebranch_old(self, variables):
+        endpoint = "/rest/branch-utils/1.0/projects/%s/repos/%s/branches" % (variables['project'], variables['repository'])
+        content = '''{"name": "refs/heads/%s"}''' % (variables['branch'])
+        print "Deleting %s using endpoint %s" % (content, endpoint)
+        response = self.api_call('DELETE', endpoint, body = content, contentType="application/json", Origin = variables['server']['url'])
+        if response.getStatus() == "204 No Content" :
+            print "Successfully deleted branch %s " % ( variables['branch'])
+            return {}
+        else:
+            raise Exception(" Not able to delete branch %s " % ( variables['branch']) )
+
+    def stash_deletebranch(self, variables):
+        endpoint = "/rest/branch-utils/1.0/projects/%s/repos/%s/branches" % (
+        variables['project'], variables['repository'])
+        content = '''{"name": "refs/heads/%s"}''' % (variables['branch'])
+        print "Deleting %s using endpoint %s" % (content, endpoint)
+        url_split = variables['server']['url'].split("://")
+        userAndPass = b64encode(b"%s:%s" % (self.http_request.username, self.http_request.password)).decode("ascii")
+        headers = {'Authorization': 'Basic %s' % userAndPass, 'Content-Type':'application/json'}
+        if url_split[0].lower() == "http":
+            conn = httplib.HTTPConnection(url_split[1])
+        else:
+            conn = httplib.HTTPSConnection(url_split[1])
+        conn.request('DELETE', endpoint, content, headers=headers)
+        response =conn.getresponse()
+        if str(response.status) == "204":
+            print "Successfully deleted branch %s " % (variables['branch'])
+            return {}
+        else:
+            raise Exception(" Not able to delete branch %s , Response Code : %s " % (variables['branch'], response.status) )
+
     # Requires the stash archive plugin installed
     def stash_downloadcode(self, variables):
         downloadURL = "%s/rest/archive/latest/projects/%s/repos/%s/archive?at=refs/heads/%s&format=zip" % (variables['server']['url'], variables['project'],variables['repository'], variables['branch'] )
@@ -95,9 +160,9 @@ class StashClient(object):
 
         print "Cleaning up download folder : %s" % variables['downloadPath']
         command = CmdLine()
-        command.addArgument("rm")
-        command.addArgument("-rf")
-        command.addArgument(variables['downloadPath'] + "/*")
+        command.addArgument("mkdir")
+        command.addArgument("-p")
+        command.addArgument(variables['downloadPath'])
         output_handler = CapturingOverthereExecutionOutputHandler.capturingHandler()
         error_handler = CapturingOverthereExecutionOutputHandler.capturingHandler()
         exit_code = connection.execute(output_handler, error_handler, command)
@@ -107,8 +172,9 @@ class StashClient(object):
         command = CmdLine()
         script = '''
             cd %s
-            wget --user %s --password %s  -O code.zip %s
-            unzip code.zip
+            ls | grep -v extract.sh | xargs rm -rf
+            wget --user %s --password %s  -O code.zip '%s'
+            unzip -o code.zip
             rm code.zip
         ''' % (variables['downloadPath'], self.http_request.username, self.http_request.password,  downloadURL )
         script_file = connection.getFile(OverthereUtils.constructPath(connection.getFile(variables['downloadPath']), 'extract.sh'))

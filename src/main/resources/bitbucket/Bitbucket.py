@@ -134,7 +134,7 @@ class BitbucketClient(object):
 
         command = CmdLine()
         command.addArgument("rm")
-        command.addArgument("-rf")
+        command.addArgument("-f")
         command.addArgument(variables['downloadPath'] + "/extract.sh")
         output_handler = CapturingOverthereExecutionOutputHandler.capturingHandler()
         error_handler = CapturingOverthereExecutionOutputHandler.capturingHandler()

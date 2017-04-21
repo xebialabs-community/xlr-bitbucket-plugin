@@ -12,5 +12,6 @@
 
     <endpoint path="/bitbucket/push_webhook" method="POST" script="bitbucket/push_webhook.py"/>
     <endpoint path="/stash/push_webhook" method="POST" script="stash/push_webhook.py"/>
+    <endpoint path="/stash/pr_webhook" method="POST" script="stash/pr_webhook.py"/>
 
 </endpoints>
