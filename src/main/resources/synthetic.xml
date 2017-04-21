@@ -142,7 +142,7 @@
         <property name="downloadPath" required="false" category="input" description="Path to Download Code"/>
         <property name="output" required="false" category="output" description="Console output of the remote process (stdout)."/>
     </type>
-    <type type="stash.searchFileContent" extends="stash.Task">
+    <type type="stash.SearchFileContent" extends="stash.Task">
         <property name="branch"  default="master" category="input" description="Branch to download" />
         <property name="filepath"  category="input" description="Relative path to file"/>
         <property name="pattern"  category="input" description="Regular Expression with Group. Only returns group 0 and 1 eg. version[ ]*=[ ]*(\d+) returns value captured by (\d+) "/>
