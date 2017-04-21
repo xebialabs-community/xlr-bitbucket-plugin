@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+    FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+
+-->
+<endpoints xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/endpoints"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/endpoints endpoints.xsd">
+
+    <endpoint path="/bitbucket/push_webhook" method="POST" script="bitbucket/push_webhook.py"/>
+    <endpoint path="/stash/push_webhook" method="POST" script="stash/push_webhook.py"/>
+
+</endpoints>
