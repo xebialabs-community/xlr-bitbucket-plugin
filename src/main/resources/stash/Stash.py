@@ -99,7 +99,7 @@ class StashClient(object):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
         print "Getting Pull Request %s current version using endpoint %s" % (str(variables['prid']), endpoint_get)
         response = self.api_call('GET', endpoint_get, contentType="application/json", Origin = variables['server']['url'])
-        data = json.loads(response.getResponse())
+        data = response.getResponse()
         return {'output' : data}
 
     def stash_searchfilecontent(self,variables):
