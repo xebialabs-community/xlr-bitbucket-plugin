@@ -116,6 +116,9 @@ version[ ]*=[ ]*(\d+)
 * Download Code 
 ![](images/stash/downloadcodezip.png)
 
+* Get Pull Request
+![](images/stash/getpullrequest.png)
+
 # References #
 
 [Stash/Bitbucket Server REST API](https://developer.atlassian.com/stash/docs/latest/reference/rest-api.html)  

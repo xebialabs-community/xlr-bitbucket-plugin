@@ -126,7 +126,11 @@
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 
-     <type type="stash.WaitForMerge" extends="stash.Task" >
+    <type type="stash.GetPullRequest" extends="stash.Task" >
+        <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
+    </type>
+
+    <type type="stash.WaitForMerge" extends="stash.Task" >
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
         <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds" label="Poll Interval"/>
     </type>
