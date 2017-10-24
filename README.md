@@ -3,8 +3,11 @@
 This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
 
 #### IMPORTANT ####
-All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
-All Bitbucket Cloud tasks are based on api **/2.0/** prefix
+
+* Use **Stash Connection and Stash Tasks** if you're using an **on-prem hosted Bitbucket Server**. Stash is now called Bitbucket Server.  
+* Use **Bitbucket Connection and Bitbucket Tasks** if you're using **Bitbucket Cloud**.
+* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
+* All Bitbucket Cloud tasks are based on api **/2.0/** prefix
 
 # CI status #
 
