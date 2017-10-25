@@ -136,7 +136,7 @@ class StashClient(object):
         response = self.api_call('POST',endpoint,body=content, contentType="application/json")
         data = response.getResponse()
         return {'output': data}
-        
+
 
     # TODO -  apache cleint doesnt support body with DELETE method. add ability to xlrelease.HTTPRequest
     def stash_deletebranch_old(self, variables):
