@@ -72,25 +72,31 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 # Commit Trigger Usage #
 
 * Stash commit trigger configuration
+
 ![](images/stash/stashcommittrigger1.png)
+
 ![](images/stash/stashcommittrigger2.png)
 
 # Bitbucket Tasks Usage #
    
 * Setup the server configuration
+
 ![](images/bitbucket/config.png)
 
 * Create pull request 
+
 ![](images/bitbucket/createpullrequest.png)
 
 * Merge pull request
+
 ![](images/bitbucket/mergepullrequest.png)
 
 * Wait for merge
+
 ![](images/bitbucket/waitformerge.png)
 
-
 * Download Code 
+
 ![](images/bitbucket/downloadcodezip.png)
 
 
@@ -98,33 +104,42 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 
    
 * Setup the server configuration
+
 ![](images/stash/config.png)
 
 * Create pull request 
+
 ![](images/stash/createpullrequest.png)
 
 * Merge pull request
+
 ![](images/stash/mergepullrequest.png)
 
 * Wait for merge
 ![](images/stash/waitformerge.png)
 
 * Decline pull request
+
 ![](images/stash/declinepullrequest.png)
 
 * Delete branch 
+
 ![](images/stash/deletebranch.png)
 
 * Search file content
+
 ![](images/stash/searchfilecontent.png)
 
 * Download Code 
+
 ![](images/stash/downloadcodezip.png)
 
 * Get Pull Request
+
 ![](images/stash/getpullrequest.png)
 
 * Tag Release
+
 ![](images/stash/tagrelease.png)
 
 # References #
