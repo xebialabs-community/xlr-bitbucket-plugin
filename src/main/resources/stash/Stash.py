@@ -128,6 +128,15 @@ class StashClient(object):
                 print "Pull Request %s : current STATE :[ %s ], retrying after %s seconds\n" % (data['id'], data['state'], str(variables['pollInterval']) )
                 time.sleep(variables['pollInterval'])
         return {'output' : data}
+    
+    def stash_tagrelease(self, variables):
+        endpoint = "/rest/git/1.0/projects/%s/repos/%s/tags" % (variables['project'], variables['repository'])
+        logger.warn("Tag project (%s/%s" % (variables['project'], variables['repository']))
+        content = '''{"force":"true", "message":"%s", "name":"%s", "startPoint":"refs/heads/%s", "type":"ANNOTATED"}''' % (variables['message'], variables['tagname'], variables['branch'])
+        response = self.api_call('POST',endpoint,body=content, contentType="application/json")
+        data = response.getResponse()
+        return {'output': data}
+        
 
     # TODO -  apache cleint doesnt support body with DELETE method. add ability to xlrelease.HTTPRequest
     def stash_deletebranch_old(self, variables):
