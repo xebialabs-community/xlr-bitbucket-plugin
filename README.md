@@ -1,15 +1,4 @@
-# xlr-bitbucket-plugin
-
-This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
-
-#### IMPORTANT ####
-
-* Use **Stash Connection and Stash Tasks** if you're using an **on-prem hosted Bitbucket Server**. Stash is now called Bitbucket Server.  
-* Use **Bitbucket Connection and Bitbucket Tasks** if you're using **Bitbucket Cloud**.
-* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
-* All Bitbucket Cloud tasks are based on api **/2.0/** prefix
-
-# CI status #
+# XLR Bitbucket plugin
 
 [![Build Status][xlr-bitbucket-plugin-travis-image]][xlr-bitbucket-plugin-travis-url]
 [![Codacy Badge][xlr-bitbucket-plugin-codacy-image] ][xlr-bitbucket-plugin-codacy-url]
@@ -26,6 +15,16 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 [xlr-bitbucket-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [xlr-bitbucket-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-bitbucket-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-bitbucket-plugin/total.svg
+
+This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
+
+#### IMPORTANT ####
+
+* Use **Stash Connection and Stash Tasks** if you're using an **on-prem hosted Bitbucket Server**. Stash is now called Bitbucket Server.  
+* Use **Bitbucket Connection and Bitbucket Tasks** if you're using **Bitbucket Cloud**.
+* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
+* All Bitbucket Cloud tasks are based on api **/2.0/** prefix
+
 
 # Development #
 
