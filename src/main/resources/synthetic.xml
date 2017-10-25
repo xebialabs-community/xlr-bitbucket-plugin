@@ -135,6 +135,12 @@
         <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds" label="Poll Interval"/>
     </type>
 
+    <type type="stash.TagRelease" extends="stash.Task" >
+        <property name="tagname" category="input" description="Release Tag" label="Release Tag Name"/>
+        <property name="message" category="input" description="Release Tag message" label="Release Tag Message"/>
+        <property name="branch"  category="input" description="Branch to Tag" />
+    </type>
+
     <type type="stash.Server" extends="configuration.HttpConnection">
         <property name="checkConfigurationPath" hidden="true" default="/rest/api/1.0/users"/>
         <property name="checkConfigurationContentType" hidden="true" default="application/json"/>

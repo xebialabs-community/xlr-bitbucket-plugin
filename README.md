@@ -1,15 +1,4 @@
-# xlr-bitbucket-plugin
-
-This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
-
-#### IMPORTANT ####
-
-* Use **Stash Connection and Stash Tasks** if you're using an **on-prem hosted Bitbucket Server**. Stash is now called Bitbucket Server.  
-* Use **Bitbucket Connection and Bitbucket Tasks** if you're using **Bitbucket Cloud**.
-* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
-* All Bitbucket Cloud tasks are based on api **/2.0/** prefix
-
-# CI status #
+# XLR Bitbucket plugin
 
 [![Build Status][xlr-bitbucket-plugin-travis-image]][xlr-bitbucket-plugin-travis-url]
 [![Codacy Badge][xlr-bitbucket-plugin-codacy-image] ][xlr-bitbucket-plugin-codacy-url]
@@ -26,6 +15,16 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 [xlr-bitbucket-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [xlr-bitbucket-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-bitbucket-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-bitbucket-plugin/total.svg
+
+This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
+
+#### IMPORTANT ####
+
+* Use **Stash Connection and Stash Tasks** if you're using an **on-prem hosted Bitbucket Server**. Stash is now called Bitbucket Server.  
+* Use **Bitbucket Connection and Bitbucket Tasks** if you're using **Bitbucket Cloud**.
+* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
+* All Bitbucket Cloud tasks are based on api **/2.0/** prefix
+
 
 # Development #
 
@@ -59,11 +58,14 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 + `stash.WaitForMerge` : This task waits and polls stash to check the status of a Pull request Merge Status
 + `stash.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository. Requires [Bitbucket Server Archive plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-archive/server/overview)
 + `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results. eg. 
-```
-version[ ]*=[ ]*(\d+)
 
-```
+	```
+	version[ ]*=[ ]*(\d+)
+
+	```
+
 + `stash.DeleteBranch` : This task allows to delete a branch
++ `stash.TagRelease` : This task adds a tag to a branch
 
 
     
@@ -121,6 +123,9 @@ version[ ]*=[ ]*(\d+)
 
 * Get Pull Request
 ![](images/stash/getpullrequest.png)
+
+* Tag Release
+![](images/stash/tagrelease.png)
 
 # References #
 

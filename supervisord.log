@@ -1,0 +1,26 @@
+2017-10-24 23:33:34,313 CRIT Supervisor running as root (no user in config file)
+2017-10-24 23:33:34,317 INFO supervisord started with pid 1
+2017-10-24 23:33:35,320 INFO spawned: 'xlr' with pid 8
+2017-10-24 23:33:36,337 INFO success: xlr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2017-10-24 23:36:00,167 WARN received SIGINT indicating exit request
+2017-10-24 23:36:00,172 INFO waiting for xlr to die
+2017-10-24 23:36:00,386 INFO stopped: xlr (terminated by SIGTERM)
+2017-10-24 23:36:00,387 INFO reaped unknown pid 14
+2017-10-24 23:36:00,389 WARN received SIGTERM indicating exit request
+2017-10-24 23:36:58,642 CRIT Supervisor running as root (no user in config file)
+2017-10-24 23:36:58,646 INFO supervisord started with pid 1
+2017-10-24 23:36:59,650 INFO spawned: 'xlr' with pid 8
+2017-10-24 23:37:00,668 INFO success: xlr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2017-10-24 23:37:48,931 INFO exited: xlr (exit status 0; expected)
+2017-10-24 23:50:23,074 WARN received SIGINT indicating exit request
+2017-10-24 23:50:48,852 CRIT Supervisor running as root (no user in config file)
+2017-10-24 23:50:48,857 INFO supervisord started with pid 1
+2017-10-24 23:50:49,861 INFO spawned: 'xlr' with pid 8
+2017-10-24 23:50:50,884 INFO success: xlr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2017-10-24 23:51:38,903 INFO exited: xlr (exit status 0; expected)
+2017-10-24 23:55:11,864 WARN received SIGINT indicating exit request
+2017-10-24 23:57:34,176 CRIT Supervisor running as root (no user in config file)
+2017-10-24 23:57:34,180 INFO supervisord started with pid 1
+2017-10-24 23:57:35,187 INFO spawned: 'xlr' with pid 8
+2017-10-24 23:57:36,205 INFO success: xlr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2017-10-24 23:58:24,427 INFO exited: xlr (exit status 0; expected)
