@@ -128,7 +128,7 @@ class StashClient(object):
                 print "Pull Request %s : current STATE :[ %s ], retrying after %s seconds\n" % (data['id'], data['state'], str(variables['pollInterval']) )
                 time.sleep(variables['pollInterval'])
         return {'output' : data}
-    
+
     def stash_tagrelease(self, variables):
         endpoint = "/rest/git/1.0/projects/%s/repos/%s/tags" % (variables['project'], variables['repository'])
         logger.warn("Tag project (%s/%s" % (variables['project'], variables['repository']))
