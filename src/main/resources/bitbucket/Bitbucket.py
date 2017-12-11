@@ -15,7 +15,6 @@ from org.apache.http.client import ClientProtocolException
 from com.xebialabs.overthere import CmdLine
 from com.xebialabs.overthere.util import CapturingOverthereExecutionOutputHandler, OverthereUtils
 from com.xebialabs.overthere.local import LocalConnection
-from com.xebialabs.overthere.OperatingSystemFamily import UNIX
 from java.lang import String
 
 

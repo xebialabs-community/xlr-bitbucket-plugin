@@ -11,81 +11,106 @@
 
     <!-- Commit Triggers -->
 
-    <type type="stash.CommitTrigger" extends="xlrelease.ReleaseTrigger" description="Listens to a stash repository for fresh code commit ">
+    <type type="stash.CommitTrigger" extends="xlrelease.ReleaseTrigger"
+          description="Listens to a stash repository for fresh code commit ">
         <!-- repository -->
-        <property name="server" category="Repository" referenced-type="stash.Server" kind="ci" description="Artifactory server to poll"/>
-        <property name="username" category="Repository" default="" required="false" description="Custom username to override global server configuration"/>
-        <property name="password" category="Repository" default="" required="false" password="true" description="Custom password to override global server configuration"/>
-        <property name="project" kind="string" category="Repository" required="true" description="Bitbucket project to monitor"/>
-        <property name="repository" kind="string" category="Repository" required="true" description="Bitbucket repository to monitor"/>
-        <property name="branchName" kind="string" category="Repository" required="false" description="Optionally Specify branch name if only listening for commits on a single branch" />
-        <property name="triggerOnInitialPublish" category="Options" kind="boolean" default="false" required="false" description="Should suppress error when project or repository not found . Set this to true when project or repository doesn't exist yet and you want to trigger a release on the initial publish. Default value is 'false'"/>
-        <property name="excludeBranches" kind="string" category="Options" default="master" description="Name of branche(s) to exclude when triggering releases. Comma separated" />
+        <property name="server" category="Repository" referenced-type="stash.Server" kind="ci"
+                  description="Bitbucket server to poll"/>
+        <property name="username" category="Repository" default="" required="false"
+                  description="Custom username to override global server configuration"/>
+        <property name="password" category="Repository" default="" required="false" password="true"
+                  description="Custom password to override global server configuration"/>
+        <property name="project" kind="string" category="Repository" required="true"
+                  description="Bitbucket project to monitor"/>
+        <property name="repository" kind="string" category="Repository" required="true"
+                  description="Bitbucket repository to monitor"/>
+        <property name="branchName" kind="string" category="Repository" required="false"
+                  description="Optionally Specify branch name if only listening for commits on a single branch"/>
+        <property name="triggerOnInitialPublish" category="Options" kind="boolean" default="false" required="false"
+                  description="Should suppress error when project or repository not found . Set this to true when project or repository doesn't exist yet and you want to trigger a release on the initial publish. Default value is 'false'"/>
+        <property name="excludeBranches" kind="string" category="Options" default="master"
+                  description="Name of branche(s) to exclude when triggering releases. Comma separated"/>
 
         <!-- output variables -->
         <property name="commitId" category="variables" required="false" description="Id of the commit."/>
         <property name="branch" category="variables" required="false" description="Branch where the commit occurred."/>
     </type>
 
-    <type type="bitbucket.CommitTrigger" extends="xlrelease.ReleaseTrigger" description="Listens to a bitbucket repository for fresh code commit ">
+    <type type="bitbucket.CommitTrigger" extends="xlrelease.ReleaseTrigger"
+          description="Listens to a bitbucket repository for fresh code commit ">
         <!-- repository -->
-        <property name="server" category="Repository" referenced-type="bitbucket.Server" kind="ci" description="Artifactory server to poll"/>
-        <property name="username" category="Repository" default="" required="false" description="Custom username to override global server configuration"/>
-        <property name="password" category="Repository" default="" required="false" password="true" description="Custom password to override global server configuration"/>
-        <property name="repo_full_name" category="Repository" required="true" label="Repository Full name" description="Full name eg. TeamName/Repository, Username/Repository"/>
-        <property name="branchName" kind="string" category="Repository" required="false" description="Optionally Specify branch name if only listening for commits on a single branch" />
-        <property name="triggerOnInitialPublish" category="Options" kind="boolean" default="false" required="false" description="Should suppress error when project or repository not found . Set this to true when project or repository doesn't exist yet and you want to trigger a release on the initial publish. Default value is 'false'"/>
+        <property name="server" category="Repository" referenced-type="bitbucket.Server" kind="ci"
+                  description="Bitbucket server to poll"/>
+        <property name="username" category="Repository" default="" required="false"
+                  description="Custom username to override global server configuration"/>
+        <property name="password" category="Repository" default="" required="false" password="true"
+                  description="Custom password to override global server configuration"/>
+        <property name="repo_full_name" category="Repository" required="true" label="Repository Full name"
+                  description="Full name eg. TeamName/Repository, Username/Repository"/>
+        <property name="branchName" kind="string" category="Repository" required="false"
+                  description="Optionally Specify branch name if only listening for commits on a single branch"/>
+        <property name="triggerOnInitialPublish" category="Options" kind="boolean" default="false" required="false"
+                  description="Should suppress error when project or repository not found . Set this to true when project or repository doesn't exist yet and you want to trigger a release on the initial publish. Default value is 'false'"/>
 
         <!-- output variables -->
         <property name="commitId" category="variables" required="false" description="Id of the commit."/>
         <property name="branch" category="variables" required="false" description="Branch where the commit occurred."/>
     </type>
-
 
 
     <!-- Bitbucket Tasks -->
 
 
-
     <type type="bitbucket.Task" extends="xlrelease.PythonScript" virtual="true">
-        <property name="server" category="input" label="Bitbucket Authentication" referenced-type="bitbucket.Server" kind="ci" required="true" description="Bitbucket Authentication."/>
-        <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
-        <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
-        <property name="repo_full_name" category="input" label="Repository Full name" description="Full name eg. TeamName/Repository, Username/Repository"/>
+        <property name="server" category="input" label="Bitbucket Authentication" referenced-type="bitbucket.Server"
+                  kind="ci" required="true" description="Bitbucket Authentication."/>
+        <property name="username" category="input" default="" required="false"
+                  description="Custom username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true"
+                  description="Custom password to override global server configuration"/>
+        <property name="repo_full_name" category="input" label="Repository Full name"
+                  description="Full name eg. TeamName/Repository, Username/Repository"/>
 
         <property name="scriptLocation" default="bitbucket/BitbucketTask.py" hidden="true"/>
         <property name="iconLocation" default="bitbucket/bitbucket-logo.png" hidden="true"/>
         <property name="taskColor" hidden="true" default="#64c5c7"/>
-        <property name="output" category="output" kind="string" size="large" label="Output" description="The output returned from execution of the Bitbucket task."/>
+        <property name="output" category="output" kind="string" size="large" label="Output"
+                  description="The output returned from execution of the Bitbucket task."/>
     </type>
 
 
-    <type type="bitbucket.CreatePullRequest" extends="bitbucket.Task" >
+    <type type="bitbucket.CreatePullRequest" extends="bitbucket.Task">
         <property name="source" category="input" description="Source branch" label="Source Branch"/>
-        <property name="target" category="input" default="master" description="Target branch" label="Target Branch" />
-        <property name="title" category="input" description="Title for PR" label="PR Title" />
-        <property name="description" category="input" description="Description for PR" label="PR Description" />
+        <property name="target" category="input" default="master" description="Target branch" label="Target Branch"/>
+        <property name="title" category="input" description="Title for PR" label="PR Title"/>
+        <property name="description" category="input" description="Description for PR" label="PR Description"/>
         <!--<property name="reviewers" category="input" description="Reviewers for PR. Comma separated" label="PR Reviewers" />
-        --><property name="closebranch" category="input" kind="boolean" description="Close branch after Merge" label="Close Branch" />
+        -->
+        <property name="closebranch" category="input" kind="boolean" description="Close branch after Merge"
+                  label="Close Branch"/>
         <property name="prid" category="output" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 
-    <type type="bitbucket.MergePullRequest" extends="bitbucket.Task" >
+    <type type="bitbucket.MergePullRequest" extends="bitbucket.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
-        <property name="message" category="input" description="Comment/Message to post" label="Message" />
-        <property name="closebranch" category="input" kind="boolean" description="Close branch after Merge" label="Close Branch" />
+        <property name="message" category="input" description="Comment/Message to post" label="Message"/>
+        <property name="closebranch" category="input" kind="boolean" description="Close branch after Merge"
+                  label="Close Branch"/>
     </type>
 
-     <type type="bitbucket.WaitForMerge" extends="bitbucket.Task" >
+    <type type="bitbucket.WaitForMerge" extends="bitbucket.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
-        <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds" label="Poll Interval"/>
+        <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds"
+                  label="Poll Interval"/>
     </type>
 
     <type type="bitbucket.DownloadCode" extends="bitbucket.Task">
-        <property name="repo_full_name" category="input" label="Repository Full name" description="Full name eg. TeamName/Repository, Username/Repository"/>
-        <property name="branch" required="true" default="master" category="input" description="Branch to download" />
+        <property name="repo_full_name" category="input" label="Repository Full name"
+                  description="Full name eg. TeamName/Repository, Username/Repository"/>
+        <property name="branch" required="true" default="master" category="input" description="Branch to download"/>
         <property name="downloadPath" required="false" category="input" description="Path to Download Code"/>
-        <property name="output" required="false" category="output" description="Console output of the remote process (stdout)."/>
+        <property name="output" required="false" category="output"
+                  description="Console output of the remote process (stdout)."/>
     </type>
 
     <type type="bitbucket.Server" extends="configuration.HttpConnection">
@@ -96,49 +121,72 @@
     <!-- Stash Tasks -->
 
     <type type="stash.Task" extends="xlrelease.PythonScript" virtual="true">
-        <property name="server" category="input" label="Stash Authentication" referenced-type="stash.Server" kind="ci" required="true" description="Stash Authentication."/>
-        <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
-        <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
+        <property name="server" category="input" label="Stash Authentication" referenced-type="stash.Server" kind="ci"
+                  required="true" description="Stash Authentication."/>
+        <property name="username" category="input" default="" required="false"
+                  description="Custom username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true"
+                  description="Custom password to override global server configuration"/>
         <property name="project" category="input" description="Project key" label="Project Key"/>
-        <property name="repository" category="input" description="Repository Name" label="Repository Name" />
+        <property name="repository" category="input" description="Repository Name" label="Repository Name"/>
 
         <property name="scriptLocation" default="stash/StashTask.py" hidden="true"/>
         <property name="iconLocation" default="stash/bitbucket-logo.png" hidden="true"/>
         <property name="taskColor" hidden="true" default="#64c5c7"/>
-        <property name="output" category="output" kind="string" size="large" label="Output" description="The output returned from execution of the Bitbucket task."/>
+        <property name="output" category="output" kind="string" size="large" label="Output"
+                  description="The output returned from execution of the Bitbucket task."/>
     </type>
 
-    <type type="stash.CreatePullRequest" extends="stash.Task" >
+    <type type="stash.CreatePullRequest" extends="stash.Task">
         <property name="source" category="input" description="Source branch" label="Source Branch"/>
-        <property name="target" category="input" default="master" description="Target branch" label="Target Branch" />
-        <property name="title" category="input" description="Title for PR" label="PR Title" />
-        <property name="description" category="input" description="Description for PR" label="PR Description" />
+        <property name="target" category="input" default="master" description="Target branch" label="Target Branch"/>
+        <property name="title" category="input" description="Title for PR" label="PR Title"/>
+        <property name="description" category="input" description="Description for PR" label="PR Description"/>
         <!--<property name="reviewers" category="input" description="Reviewers for PR. Comma separated" label="PR Reviewers" />
         -->
         <property name="prid" category="output" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 
-    <type type="stash.MergePullRequest" extends="stash.Task" >
+    <type type="stash.MergePullRequest" extends="stash.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 
-    <type type="stash.DeclinePullRequest" extends="stash.Task" >
+    <type type="stash.DeclinePullRequest" extends="stash.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 
-    <type type="stash.GetPullRequest" extends="stash.Task" >
+    <type type="stash.GetPullRequest" extends="stash.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 
-    <type type="stash.WaitForMerge" extends="stash.Task" >
+    <type type="stash.WaitForMerge" extends="stash.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
-        <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds" label="Poll Interval"/>
+        <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds"
+                  label="Poll Interval"/>
     </type>
 
-    <type type="stash.TagRelease" extends="stash.Task" >
+    <type type="stash.TagRelease" extends="stash.Task">
         <property name="tagname" category="input" description="Release Tag" label="Release Tag Name"/>
         <property name="message" category="input" description="Release Tag message" label="Release Tag Message"/>
-        <property name="branch"  category="input" description="Branch to Tag" />
+        <property name="branch" category="input" description="Branch to Tag"/>
+    </type>
+
+    <type type="stash.DownloadCode" extends="stash.Task">
+        <property name="branch" required="true" default="master" category="input" description="Branch to download"/>
+        <property name="downloadPath" required="false" category="input" description="Path to Download Code"/>
+        <property name="output" required="false" category="output"
+                  description="Console output of the remote process (stdout)."/>
+    </type>
+    <type type="stash.SearchFileContent" extends="stash.Task">
+        <property name="branch" default="master" category="input" description="Branch to download"/>
+        <property name="filepath" category="input" description="Relative path to file"/>
+        <property name="pattern" category="input"
+                  description="Regular Expression with Group. Only returns group 0 and 1 eg. version[ ]*=[ ]*(\d+) returns value captured by (\d+) "/>
+        <property name="group0" required="false" category="output" description="Match Returned from search"/>
+        <property name="group1" required="false" category="output" description="Match Returned from search"/>
+    </type>
+    <type type="stash.DeleteBranch" extends="stash.Task">
+        <property name="branch" category="input" description="Branch to delete"/>
     </type>
 
     <type type="stash.Server" extends="configuration.HttpConnection">
@@ -146,22 +194,5 @@
         <property name="checkConfigurationContentType" hidden="true" default="application/json"/>
         <property name="scriptLocation" hidden="true" default="configuration/HttpConnectionCheck.py"/>
     </type>
-
-    <type type="stash.DownloadCode" extends="stash.Task">
-        <property name="branch" required="true" default="master" category="input" description="Branch to download" />
-        <property name="downloadPath" required="false" category="input" description="Path to Download Code"/>
-        <property name="output" required="false" category="output" description="Console output of the remote process (stdout)."/>
-    </type>
-    <type type="stash.SearchFileContent" extends="stash.Task">
-        <property name="branch"  default="master" category="input" description="Branch to download" />
-        <property name="filepath"  category="input" description="Relative path to file"/>
-        <property name="pattern"  category="input" description="Regular Expression with Group. Only returns group 0 and 1 eg. version[ ]*=[ ]*(\d+) returns value captured by (\d+) "/>
-        <property name="group0" required="false" category="output" description="Match Returned from search"/>
-        <property name="group1" required="false" category="output" description="Match Returned from search"/>
-    </type>
-    <type type="stash.DeleteBranch" extends="stash.Task">
-        <property name="branch"  category="input" description="Branch to delete" />
-    </type>
-
 
 </synthetic>
