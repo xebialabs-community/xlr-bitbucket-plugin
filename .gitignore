@@ -7,4 +7,5 @@ bin
 .project
 .pydevproject
 .DS_*
-supervisord*
+supervisord.*
+xlr-bitbucket-plugin.iml
