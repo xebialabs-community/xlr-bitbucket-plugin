@@ -1,8 +1,20 @@
 version: '3'
 
 services:
+  xlr:
+    image: xebialabs/xlr_dev_run:v7.5.0.1
+    depends_on:
+      - bitbucket
+    networks:
+      - bitbucketnet
+    volumes:
+      - ~/xl-licenses:/license
+      - ./../../../../:/data
+    ports:
+      - '15516:5516'
+
   bitbucket:
-    image: blacklabelops/bitbucket
+    image: blacklabelops/bitbucket:4.9.1
     depends_on:
       - postgres_bitbucket
     networks:

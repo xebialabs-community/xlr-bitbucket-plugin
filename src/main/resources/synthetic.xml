@@ -108,9 +108,7 @@
         <property name="repo_full_name" category="input" label="Repository Full name"
                   description="Full name eg. TeamName/Repository, Username/Repository"/>
         <property name="branch" required="true" default="master" category="input" description="Branch to download"/>
-        <property name="downloadPath" required="false" category="input" description="Path to Download Code"/>
-        <property name="output" required="false" category="output"
-                  description="Console output of the remote process (stdout)."/>
+        <property name="downloadPath" required="true" category="input" description="Path to Download Code"/>
     </type>
 
     <type type="bitbucket.Server" extends="configuration.HttpConnection">
