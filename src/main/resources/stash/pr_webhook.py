@@ -11,23 +11,23 @@
 
 from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 from java.util import HashMap
+import sys
 
 
 def handle_request(event, template_filter = None):
     
-    print event
-    print template_filter
     logger.info(str(event))
-    #try:
-    #    if event["push"]:
-    #        logger.info("Found push event for template %s " % template_filter)
-    #        handle_push_event(event, template_filter)
-    #except:
-    #    e = sys.exc_info()[1]
-    #    msg = ("Could not parse payload, check your Bitbucket Webhook "
-    #           "configuration. Error: %s. Payload:\n%s" % (e, event))
-    #    logger.warn(msg)
-    #    return
+    logger.info(str(template_filter))
+    try:
+        if event["push"]:
+            logger.info("Found push event for template %s " % template_filter)
+            handle_push_event(event, template_filter)
+    except:
+        e = sys.exc_info()[1]
+        msg = ("Could not parse payload, check your Bitbucket Webhook "
+               "configuration. Error: %s. Payload:\n%s" % (e, event))
+        logger.warn(msg)
+        return
 
 def handle_push_event(event, template_filter):
     proj_name = event['proj']
