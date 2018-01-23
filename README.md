@@ -45,6 +45,7 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 	* Provide Auth using XLR Credentials
 	* Provide Header :: Content-Type : application/json 
 	* Trigger Condition :  PR OPENED
+	* Select Option : Encode HTML ( so that commit squash line breaks get encoded)
 	* POST Body Content:
 	
 	```
@@ -53,9 +54,15 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 	    "repository":"${PULL_REQUEST_FROM_REPO_SLUG}",
 	    "proj": "${PULL_REQUEST_FROM_REPO_PROJECT_KEY}",
 	    "pr_title":"${PULL_REQUEST_TITLE}",
+	    "comment" :"${PULL_REQUEST_DESCRIPTION}",
 	    "source_hash":"${PULL_REQUEST_FROM_HASH}",
+	    "source_branch":"${PULL_REQUEST_FROM_BRANCH}",
+	    "source_project":"${PULL_REQUEST_FROM_REPO_PROJECT_KEY}",
+	    "source_repo":"${PULL_REQUEST_FROM_REPO_SLUG}",
 	    "target_hash": "${PULL_REQUEST_TO_HASH}",
-	    "comment" :"${PULL_REQUEST_DESCRIPTION}"
+	    "target_branch":"${PULL_REQUEST_TO_BRANCH}",
+	    "target_project":"${PULL_REQUEST_TO_REPO_PROJECT_KEY}",
+	    "target_repo":"${PULL_REQUEST_TO_REPO_SLUG}"
 	    }
 	```
 + **Bitbucket Push Webhook** `http://<xlr server:port>/api/extension/bitbucket/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository.

@@ -197,5 +197,13 @@
         <property name="checkConfigurationContentType" hidden="true" default="application/json"/>
         <property name="scriptLocation" hidden="true" default="configuration/HttpConnectionCheck.py"/>
     </type>
-
+    <type type="stash.CreateBranch" extends="stash.Task">
+        <property name="branchName" category="input" description="New Branch Name" label="Branch Name"/>
+        <property name="startPoint" category="input" description="Starting Point commit hash" label="Start Point Hash"/>
+        <property name="message" category="input" description="Message" label="Message"/>
+        <property name="output" required="false" category="output" description="Console output of the remote process (stdout)."/>
+    </type>
+    <type type="stash.ApprovePullRequest" extends="stash.Task">
+        <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
+    </type>
 </synthetic>
