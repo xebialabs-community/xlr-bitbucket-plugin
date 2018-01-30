@@ -94,7 +94,6 @@ def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_
     variables.put('${target_hash}', '%s' % target_hash)
     variables.put('${target_branch}', '%s' % target_branch)
     variables.put('${target_project}', '%s' % target_project)
-    variables.put('${target_project}', '%s' % target_project)
     variables.put('${target_repo}', '%s' % target_repo)
     params.setReleaseVariables(variables)
     started_release = templateApi.start(template_id, params)
