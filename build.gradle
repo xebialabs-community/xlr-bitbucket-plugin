@@ -28,13 +28,6 @@ if (!project.hasProperty('release.useLastTag')) {
   project.ext['release.useLastTag'] = true
 }
 
-processResources.configure {
-  filter ReplaceTokens, tokens: [
-    'project.version': version.toString(),
-    'project.name'   : rootProject.name
-  ]
-}
-
 license {
   header rootProject.file('License.md')
   strictCheck false
