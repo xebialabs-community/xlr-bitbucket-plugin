@@ -82,7 +82,7 @@ class StashClient(object):
         response = self.api_call('POST', endpoint_post,body=content, contentType="application/json")
         data = json.loads(response.getResponse())
         print "Pull Request %s merged sucessfully with STATE : %s" % ( data['id'], data['state'])
-        return {'output':data}
+        return {'output': data}
 
     def stash_declinepullrequest(self, variables):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
@@ -94,7 +94,7 @@ class StashClient(object):
         print "Declining Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post)
         response = self.api_call('POST', endpoint_post, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
-        print "Pull Request %s decline sucessfully with STATE : %s" % ( data['id'], data['state'])
+        print "Pull Request %s decline sucessfully with STATE : %s" % (data['id'], data['state'])
         return {'output' : data}
 
     def stash_getpullrequest(self, variables):
@@ -102,7 +102,7 @@ class StashClient(object):
         print "Getting Pull Request %s current version using endpoint %s" % (str(variables['prid']), endpoint_get)
         response = self.api_call('GET', endpoint_get, contentType="application/json", Origin=variables['server']['url'])
         data = response.getResponse()
-        return {'output':data}
+        return {'output': data}
 
     def stash_searchfilecontent(self,variables):
         endpoint = "/rest/api/1.0/projects/%s/repos/%s/browse/%s?at=refs/heads/%s" % (variables['project'], variables['repository'], str(variables['filepath']), variables['branch'])
@@ -138,13 +138,12 @@ class StashClient(object):
         data = response.getResponse()
         return {'output': data}
 
-
     # TODO -  apache client doesn't support body with DELETE method. add ability to xlrelease.HTTPRequest
     def stash_deletebranch_old(self, variables):
         endpoint = "/rest/branch-utils/1.0/projects/%s/repos/%s/branches" % (variables['project'], variables['repository'])
         content = '''{"name": "refs/heads/%s"}''' % (variables['branch'])
         print "Deleting %s using endpoint %s" % (content, endpoint)
-        response = self.api_call('DELETE', endpoint, body = content, contentType="application/json", Origin = variables['server']['url'])
+        response = self.api_call('DELETE', endpoint, body=content, contentType="application/json", Origin=variables['server']['url'])
         if response.getStatus() == "204 No Content":
             print "Successfully deleted branch %s " % ( variables['branch'])
             return {}
@@ -235,7 +234,7 @@ class StashClient(object):
         endpoint_post = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/approve" % (variables['project'], variables['repository'], str(variables['prid']))
         content = '{}'
         print "Approving Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post)
-        response = self.api_call('POST',endpoint_post,body=content, contentType="application/json")
+        response = self.api_call('POST',endpoint_post, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
-        print "Pull Request %s approved sucessfully with STATE : %s" % ( str(variables['prid']), data['status'])
-        return {'output':data}
+        print "Pull Request %s approved sucessfully with STATE : %s" % (str(variables['prid']), data['status'])
+        return {'output': data}
