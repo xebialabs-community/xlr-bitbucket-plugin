@@ -138,7 +138,7 @@ class StashClient(object):
         return {'output': data}
 
 
-    # TODO -  apache cleint doesnt support body with DELETE method. add ability to xlrelease.HTTPRequest
+    # TODO -  apache client doesnt support body with DELETE method. add ability to xlrelease.HTTPRequest
     def stash_deletebranch_old(self, variables):
         endpoint = "/rest/branch-utils/1.0/projects/%s/repos/%s/branches" % (variables['project'], variables['repository'])
         content = '''{"name": "refs/heads/%s"}''' % (variables['branch'])
