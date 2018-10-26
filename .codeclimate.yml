@@ -16,6 +16,9 @@ plugins:
       python_version: 2
   pep8:
     enabled: true
+    checks:
+      E501:
+        enabled: false
 ratings:
   paths:
   - "**.inc"
