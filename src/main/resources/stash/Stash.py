@@ -8,7 +8,10 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-import json, time, re
+import httplib
+import json
+import re
+import time
 from xlrelease.HttpRequest import HttpRequest
 from xlrelease.CredentialsFallback import CredentialsFallback
 from org.apache.http.client import ClientProtocolException
@@ -16,7 +19,6 @@ from com.xebialabs.overthere import CmdLine
 from com.xebialabs.overthere.util import CapturingOverthereExecutionOutputHandler, OverthereUtils
 from com.xebialabs.overthere.local import LocalConnection
 from java.lang import String
-import httplib
 from base64 import b64encode
 
 
@@ -64,10 +66,10 @@ class StashClient(object):
                 str(variables['source']),
                 str(variables['target']))
         print "Submitting Pull Request %s using endpoint %s" % (content, endpoint)
-        response = self.api_call('POST',endpoint, body=content, contentType="application/json")
+        response = self.api_call('POST', endpoint, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
         print "Pull Request created with ID %s " % data['id']
-        return {'output' : data, 'prid' : data['id']}
+        return {'output':data, 'prid':data['id']}
 
     def stash_mergepullrequest(self, variables):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
@@ -90,7 +92,7 @@ class StashClient(object):
         content = '{}'
         endpoint_post = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/decline?version=%s" % (variables['project'], variables['repository'], str(variables['prid']), data['version'])
         print "Declining Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post)
-        response = self.api_call('POST', endpoint_post,body=content, contentType="application/json")
+        response = self.api_call('POST', endpoint_post, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
         print "Pull Request %s decline sucessfully with STATE : %s" % ( data['id'], data['state'])
         return {'output' : data}
@@ -98,9 +100,9 @@ class StashClient(object):
     def stash_getpullrequest(self, variables):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
         print "Getting Pull Request %s current version using endpoint %s" % (str(variables['prid']), endpoint_get)
-        response = self.api_call('GET', endpoint_get, contentType="application/json", Origin = variables['server']['url'])
+        response = self.api_call('GET', endpoint_get, contentType="application/json", Origin=variables['server']['url'])
         data = response.getResponse()
-        return {'output' : data}
+        return {'output':data}
 
     def stash_searchfilecontent(self,variables):
         endpoint = "/rest/api/1.0/projects/%s/repos/%s/browse/%s?at=refs/heads/%s" % (variables['project'], variables['repository'], str(variables['filepath']), variables['branch'])
@@ -112,7 +114,6 @@ class StashClient(object):
             result = pattern.search(item['text'])
             if result != None and len(result.groups()) == 1:
                 return {'group0':result.group(0), 'group1':result.group(1)}
-
 
     def stash_waitformerge(self, variables):
         endpoint = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
@@ -144,7 +145,7 @@ class StashClient(object):
         content = '''{"name": "refs/heads/%s"}''' % (variables['branch'])
         print "Deleting %s using endpoint %s" % (content, endpoint)
         response = self.api_call('DELETE', endpoint, body = content, contentType="application/json", Origin = variables['server']['url'])
-        if response.getStatus() == "204 No Content" :
+        if response.getStatus() == "204 No Content":
             print "Successfully deleted branch %s " % ( variables['branch'])
             return {}
         else:
@@ -225,10 +226,10 @@ class StashClient(object):
                 str(variables['startPoint']),
                 str(variables['message']))
         print "Submitting Create Branch Request %s using endpoint %s" % (content, endpoint)
-        response = self.api_call('POST',endpoint, body = content, contentType="application/json")
+        response = self.api_call('POST',endpoint, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
         print "Sucessfully created branch :  %s from commit has %s" % (str(variables['branch_name']),str(variables['startPoint']))
-        return {'output' : data}
+        return {'output':data}
 
     def stash_approvepullrequest(self, variables):
         endpoint_post = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/approve" % (variables['project'], variables['repository'], str(variables['prid']))
@@ -237,4 +238,4 @@ class StashClient(object):
         response = self.api_call('POST',endpoint_post,body=content, contentType="application/json")
         data = json.loads(response.getResponse())
         print "Pull Request %s approved sucessfully with STATE : %s" % ( str(variables['prid']), data['status'])
-        return {'output' : data}
+        return {'output':data}
