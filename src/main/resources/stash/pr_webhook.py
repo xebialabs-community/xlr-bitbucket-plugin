@@ -21,7 +21,7 @@ def handle_request(event, template_filter=None):
         if event["push"]:
             logger.info("Found push event for template %s " % template_filter)
             handle_push_event(event, template_filter)
-    except:
+    except Exception:
         e = sys.exc_info()[1]
         msg = ("Could not parse payload, check your Bitbucket Webhook "
                "configuration. Error: %s. Payload:\n%s" % (e, event))

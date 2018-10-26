@@ -9,8 +9,6 @@
 #
 
 
-
-
 import json
 import os
 import tempfile
@@ -23,7 +21,6 @@ from java.nio.file import Files, Paths, StandardCopyOption
 from org.apache.http.client import ClientProtocolException
 from xlrelease.HttpRequest import HttpRequest
 from xlrelease.CredentialsFallback import CredentialsFallback
-
 
 
 class BitbucketClient(object):

@@ -10,6 +10,9 @@ plugins:
       - php
   fixme:
     enabled: true
+    checks:
+      TODO:
+        enabled: false
   radon:
     enabled: true
     config: 
