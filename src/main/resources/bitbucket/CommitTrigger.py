@@ -12,6 +12,7 @@
 import sys
 import json
 
+
 def findNewCommit(oldCommitMap, newCommitMap):
     branch = ""
     commitId = ""
@@ -34,6 +35,7 @@ def findNewCommit(oldCommitMap, newCommitMap):
 
     return branch, commitId
 
+
 if server is None:
     print "No Bitbucket server provided."
     sys.exit(1)
@@ -41,7 +43,7 @@ if server is None:
 request = HttpRequest(server, username, password)
 context = "/2.0/repositories/%s/refs" % (repo_full_name)
 branches_path = "%s/%s?limit=1000" % (context, "branches")
-response = request.get(branches_path, contentType = 'application/json')
+response = request.get(branches_path, contentType='application/json')
 
 if not response.isSuccessful():
     if response.status == 404 and triggerOnInitialPublish:
@@ -74,7 +76,7 @@ else:
 
         branch, commitId = findNewCommit(oldCommit, newCommit)
 
-        if branchName == "" or (branchName != "" and branchName == branch ):
+        if branchName == "" or (branchName != "" and branchName == branch):
             triggerState = newTriggerState
 
         print("Bitbucket triggered release for %s-%s" % (branch, commitId))

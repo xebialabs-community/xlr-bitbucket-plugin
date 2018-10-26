@@ -14,5 +14,5 @@ bitbucket = bitbucket.BitbucketClient.get_client(server, username, password)
 method = str(task.getTaskType()).lower().replace('.', '_')
 call = getattr(bitbucket, method)
 response = call(locals())
-for key,value in response.items():
+for key, value in response.items():
     locals()[key] = value

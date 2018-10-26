@@ -77,7 +77,7 @@
                   description="Full name eg. TeamName/Repository, Username/Repository"/>
 
         <property name="scriptLocation" default="bitbucket/BitbucketTask.py" hidden="true"/>
-        <property name="iconLocation" default="bitbucket/bitbucket-logo.png" hidden="true"/>
+        <property name="iconLocation" default="logo/bitbucket-logo.png" hidden="true"/>
         <property name="taskColor" hidden="true" default="#64c5c7"/>
         <property name="output" category="output" kind="string" size="large" label="Output"
                   description="The output returned from execution of the Bitbucket task."/>
@@ -134,7 +134,7 @@
         <property name="repository" category="input" description="Repository Name" label="Repository Name"/>
 
         <property name="scriptLocation" default="stash/StashTask.py" hidden="true"/>
-        <property name="iconLocation" default="stash/bitbucket-logo.png" hidden="true"/>
+        <property name="iconLocation" default="logo/bitbucket-logo.png" hidden="true"/>
         <property name="taskColor" hidden="true" default="#64c5c7"/>
         <property name="output" category="output" kind="string" size="large" label="Output"
                   description="The output returned from execution of the Bitbucket task."/>

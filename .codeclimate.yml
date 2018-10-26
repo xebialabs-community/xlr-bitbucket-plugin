@@ -1,5 +1,5 @@
 ---
-engines:
+plugins:
   duplication:
     enabled: true
     config:
@@ -10,10 +10,18 @@ engines:
       - php
   fixme:
     enabled: true
+    checks:
+      TODO:
+        enabled: false
   radon:
     enabled: true
     config: 
       python_version: 2
+  pep8:
+    enabled: true
+    checks:
+      E501:
+        enabled: false
 ratings:
   paths:
   - "**.inc"
