@@ -12,10 +12,10 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 
 xlDocker {
-  compileImage = 'xebialabs/xlr_dev_compile'
-  compileVersion = 'v7.5.0.1'
-  runImage = 'xebialabs/xlr_dev_run'
-  runVersion = 'v7.5.0.1'
+  compileImage = 'xebialabsunsupported/xlr_dev_compile'
+  compileVersion = '8.2.0-1'
+  runImage = 'xebialabsunsupported/xlr_dev_run'
+  runVersion = '8.2.0-1'
   runPortMapping = '15516:5516'
 }
 
@@ -30,7 +30,7 @@ if (!project.hasProperty('release.useLastTag')) {
 
 license {
   header rootProject.file('License.md')
-  strictCheck false
+  strictCheck true
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'XEBIALABS'
 }

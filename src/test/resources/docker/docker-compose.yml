@@ -12,7 +12,7 @@ version: '3'
 
 services:
   xlr:
-    image: xebialabs/xlr_dev_run:v7.5.0.1
+    image: xebialabsunsupported/xlr_dev_run:8.2.0-1
     depends_on:
       - bitbucket
     networks:
@@ -24,7 +24,7 @@ services:
       - '15516:5516'
 
   bitbucket:
-    image: blacklabelops/bitbucket:4.9.1
+    image: blacklabelops/bitbucket:5.11.1
     depends_on:
       - postgres_bitbucket
     networks:
