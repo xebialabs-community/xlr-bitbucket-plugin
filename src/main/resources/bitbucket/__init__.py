@@ -8,16 +8,22 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+
+
+
+import json
 import os
 import tempfile
+import time
+import requests
+import StringIO
+import zipfile
 from com.xebialabs.xlr.ssl import LoaderUtil
 from java.nio.file import Files, Paths, StandardCopyOption
-
-import json, time
-import requests, zipfile, StringIO
+from org.apache.http.client import ClientProtocolException
 from xlrelease.HttpRequest import HttpRequest
 from xlrelease.CredentialsFallback import CredentialsFallback
-from org.apache.http.client import ClientProtocolException
+
 
 
 class BitbucketClient(object):
@@ -123,6 +129,7 @@ def extract_file_from_jar(config_file):
         return tmp_abs_path
     else:
         return None
+
 
 if 'REQUESTS_CA_BUNDLE' not in os.environ:
     set_ca_bundle_path()

@@ -13,7 +13,7 @@ from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 from java.util import HashMap
 
 
-def handle_request(event, template_filter = None):
+def handle_request(event, template_filter=None):
     try:
         if event["push"]:
             logger.info("Found push event for template %s " % template_filter)
@@ -25,20 +25,20 @@ def handle_request(event, template_filter = None):
         logger.warn(msg)
         return
 
+
 def handle_push_event(event, template_filter):
     repo_full_name = event["repository"]["full_name"]
-    changes =  event["push"]["changes"]
+    changes = event["push"]["changes"]
     for change in changes:
         if change["new"] and change["new"]["type"] == "branch":
             logger.info(" Handing new branch creation event for template %s " % template_filter)
             branch_name = change["new"]["name"]
             current_commit_hash = change["new"]["target"]["hash"]
-            logger.info("Starting release for new branch %s in repository %s from template %s" % ( repo_full_name, branch_name, template_filter))
+            logger.info("Starting release for new branch %s in repository %s from template %s" % (repo_full_name, branch_name, template_filter))
             start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter)
 
 
-
-def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter = None):
+def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter=None):
     templates = templateApi.getTemplates(template_filter)
     if not templates:
         raise Exception('Could not find any templates by tag [pull_request_merger]. '
@@ -49,7 +49,7 @@ def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, t
         template_id = templates[0].id
 
     params = StartRelease()
-    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name,branch_name))
+    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name, branch_name))
     variables = HashMap()
     variables.put('${repo_full_name}', '%s' % repo_full_name)
     variables.put('${branch_name}', '%s' % branch_name)
@@ -82,5 +82,6 @@ def start_pr_release(repo_full_name, pr_number, pr_title, comment):
     started_release = templateApi.start(template_id, params)
     response.entity = started_release
     logger.info("Started release %s to merge pull request %s" % (started_release.getId(), pr_number))
+
 
 handle_request(request.entity, request.query['template'])

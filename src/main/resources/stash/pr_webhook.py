@@ -14,8 +14,7 @@ from java.util import HashMap
 import sys
 
 
-def handle_request(event, template_filter = None):
-    
+def handle_request(event, template_filter=None):
     logger.info(str(event))
     logger.info(str(template_filter))
     try:
@@ -28,6 +27,7 @@ def handle_request(event, template_filter = None):
                "configuration. Error: %s. Payload:\n%s" % (e, event))
         logger.warn(msg)
         return
+
 
 def handle_push_event(event, template_filter):
     proj_name = event['proj']
@@ -44,10 +44,10 @@ def handle_push_event(event, template_filter):
     target_repo = event['target_repo']
     target_hash = event['target_hash']
 
-    start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash,target_hash, source_branch,source_project, source_repo, target_branch,target_project, target_repo, template_filter)
+    start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash, target_hash, source_branch, source_project, source_repo, target_branch, target_project, target_repo, template_filter)
 
 
-def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter = None):
+def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter=None):
     templates = templateApi.getTemplates(template_filter)
     if not templates:
         raise Exception('Could not find any templates by tag [pull_request_merger]. '
@@ -58,7 +58,7 @@ def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, t
         template_id = templates[0].id
 
     params = StartRelease()
-    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name,branch_name))
+    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name, branch_name))
     variables = HashMap()
     variables.put('${repo_full_name}', '%s' % repo_full_name)
     variables.put('${branch_name}', '%s' % branch_name)
@@ -69,7 +69,7 @@ def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, t
     logger.info("Started Release %s for BRANCH: %s/%s" % (started_release.getId(), repo_full_name, branch_name))
 
 
-def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash,target_hash,source_branch,source_project, source_repo, target_branch,target_project, target_repo, tag = 'pull_request_merger'):
+def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash, target_hash, source_branch, source_project, source_repo, target_branch, target_project, target_repo, tag='pull_request_merger'):
     pr_templates = templateApi.getTemplates(tag)
     if not pr_templates:
         raise Exception('Could not find any templates by tag [pull_request_merger]. '
@@ -99,5 +99,6 @@ def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_
     started_release = templateApi.start(template_id, params)
     response.entity = started_release
     logger.info("Started release %s for Pull Request %s" % (started_release.getId(), pr_number))
+
 
 handle_request(request.entity, request.query['template'])
