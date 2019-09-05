@@ -206,4 +206,46 @@
     <type type="stash.ApprovePullRequest" extends="stash.Task">
         <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
     </type>
+    <type type="stash.QueryCommits" extends="stash.Task" virtual="true">
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used"/>
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+    </type>
+    <!-- Tile Configuration -->
+    <type type="stash.ContributionsTile" label="Stash Contributions Tile" extends="xlrelease.Tile" description="Display authors and committers for the latest commits">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="stash/ContributionsTile/stash-contributions-tile-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="stash/ContributionsTile/stash-contributions-tile-details-view.html" />
+        <property name="width" kind="integer" default="2"/>
+        <property name="height" kind="integer" default="2"/>
+        <property name="title" description="Tile title." default="Bitbucket Contributions Summary"/>
+        <property name="server" category="input" label="Stash Authentication" referenced-type="stash.Server" kind="ci"
+                  required="true" description="Stash Authentication."/>
+        <property name="username" category="input" default="" required="false"
+                  description="Optional username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true"
+                  description="Optional password to override global server configuration"/>
+        <property name="project" category="input" description="Project key" label="Project Key"/>
+        <property name="repository" category="input" description="Repository Name" label="Repository Name"/>
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the master branch will be used"/>
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+    </type>
+    <!-- Tile Configuration -->
+    <type type="stash.TimelineTile" label="Stash Timeline Tile" extends="xlrelease.Tile" description="Display a timeline of commits">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="stash/TimelineTile/stash-timeline-tile-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="stash/TimelineTile/stash-timeline-tile-details-view.html" />
+        <property name="width" kind="integer" default="2"/>
+        <property name="height" kind="integer" default="2"/>
+        <property name="title" description="Tile title." default="Bitbucket Commits Timeline"/>
+        <property name="server" category="input" label="Stash Authentication" referenced-type="stash.Server" kind="ci"
+                  required="true" description="Stash Authentication."/>
+        <property name="username" category="input" default="" required="false"
+                  description="Optional username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true"
+                  description="Optional password to override global server configuration"/>
+        <property name="project" category="input" description="Project key" label="Project Key"/>
+        <property name="repository" category="input" description="Repository Name" label="Repository Name"/>
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the master branch will be used"/>
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+    </type>
 </synthetic>

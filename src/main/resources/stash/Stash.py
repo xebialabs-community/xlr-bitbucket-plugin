@@ -238,3 +238,26 @@ class StashClient(object):
         data = json.loads(response.getResponse())
         print "Pull Request %s approved sucessfully with STATE : %s" % (str(variables['prid']), data['status'])
         return {'output': data}
+
+    def stash_querycommits(self, variables):
+        # Calculate page sizes using max 100 results per page and the user-specified results_limit
+        result_set_sizes = [min(variables['results_limit'] - i, 100) for i in range(0, variables['results_limit'], 100)]
+        endpoint = "/rest/api/1.0/projects/%s/repos/%s/commits?" % (variables['project'], variables['repository'])
+        if variables["branch"] is not None:
+            endpoint += "until=%s" % variables["branch"]
+        commits = []
+        nextPageStart = 0
+        # Calculate page sizes using max 100 results per page (GitLab limit) and the user-specified results_limit
+        result_set_sizes = [min(variables['results_limit'] - i, 100) for i in range(0, variables['results_limit'], 100)]
+        for page_num, result_set_size in enumerate(result_set_sizes, 1):
+            endpoint_page = "%s&limit=100&start=%s" % (endpoint, nextPageStart)
+            response = self.api_call('GET', endpoint_page, body='{}', contentType="application/json")
+            data = json.loads(response.getResponse())
+            if data["values"] == []:  # no more commits to pull
+                break
+            else:  # pull commits based on expected results_limit count for that page
+                commits += data["values"][0:result_set_size]
+                nextPageStart = data["nextPageStart"]
+            if nextPageStart is None:  # no more commits to pull
+                break
+        return {'output': commits}
