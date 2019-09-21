@@ -8,3 +8,5 @@ bin
 .pydevproject
 .DS_*
 supervisord*
+src/test/resources/docker/bitbucket/data/*
+src/test/resources/docker/bitbucket/db/*

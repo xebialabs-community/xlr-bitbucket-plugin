@@ -7,12 +7,45 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+bitbucket:
+  image: blacklabelops/bitbucket
+  links:
+    - postgres_bitbucket
+  volumes:
+    - ./bitbucket/data:/var/atlassian/bitbucket
+  ports:
+    - '7990:7990'
+  environment:
+    - 'BITBUCKET_PROXY_NAME='
+    - 'BITBUCKET_PROXY_PORT='
+    - 'BITBUCKET_PROXY_SCHEME='
+    - 'BITBUCKET_DELAYED_START='
+    - 'DOCKER_WAIT_HOST=postgres_bitbucket'
+    - 'DOCKER_WAIT_PORT=5432'
+  labels:
+    com.blacklabelops.description: "Atlassian Bitbucket"
+    com.blacklabelops.service: "bitbucket"
 
-from stash.Stash import StashClient
+postgres_bitbucket:
+  image: blacklabelops/postgres
+  volumes:
+    - ./bitbucket/db:/var/lib/postgresql/data
+  environment:
+    - 'POSTGRES_USER=bitbucketdb'
+    # CHANGE THE PASSWORD!
+    - 'POSTGRES_PASSWORD=jellyfish'
+    - 'POSTGRES_DB=bitbucketdb'
+    - 'POSTGRES_ENCODING=UTF8'
+  labels:
+    com.blacklabelops.description: "PostgreSQL Database Server"
+    com.blacklabelops.service: "postgresql"
 
-stash = StashClient.get_client(server, username, password)
-method = str(task.getTaskType()).lower().replace('.', '_')
-call = getattr(stash, method)
-response = call(locals())
-for key,value in response.items():
-    locals()[key] = value
+xlrbb:
+  image: xebialabsunsupported/xlr_dev_run:8.6.1
+  volumes:
+    - ~/xl-licenses:/license
+    - ./../../../../:/data
+  links:
+   - bitbucket
+  ports:
+   - "5516:5516"
