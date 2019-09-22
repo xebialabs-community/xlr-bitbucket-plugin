@@ -163,5 +163,91 @@
         <property name="branch"  category="input" description="Branch to delete" />
     </type>
 
+    <!--
+        ######################################################################
+        ##                      S T A S H                                   ##
+        ##                  Tile Configuration                              ##
+        ######################################################################
+    -->
+    <type type="stash.CommitsTile" label="Stash Commits Tile" extends="xlrelease.Tile" description="Display a list of the latest commits to a branch">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="bitbucket/CommitsTile/bitbucket-commits-tile-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="bitbucket/CommitsTile/bitbucket-commits-tile-details-view.html" />
+        <property name="title" description="Tile title." default="Stash Commits Summary"/>
+        <property name="server" category="input" label="Stash Server" referenced-type="stash.Server" kind="ci" />
+        <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
+        <property name="project" category="input" required="true" label="Project Name"/>
+        <property name="slug"    category="input" required="true" label="Project Slug" />
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used" default="master"/>
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+    </type>
 
+    <!-- Tile Configuration -->
+    <type type="stash.ContributionsTile" label="Stash Contributions Tile" extends="xlrelease.Tile" description="Display authors and committers for the latest commits">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="bitbucket/ContributionsTile/bitbucket-contributions-tile-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="bitbucket/ContributionsTile/bitbucket-contributions-tile-details-view.html" />
+        <property name="title" description="Tile title." default="Stash Contributions Summary"/>
+        <property name="server" category="input" label="Stash Server" referenced-type="stash.Server" kind="ci" />
+        <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
+        <property name="project" category="input" required="true" label="Project Name"/>
+        <property name="slug"    category="input" required="true" label="Project Slug" />
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used"/>
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+    </type>
+
+    <!-- Tile Configuration -->
+    <type type="stash.TimelineTile" label="Stash Timeline Tile" extends="xlrelease.Tile" description="Display a timeline of commits">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="bitbucket/TimelineTile/bitbucket-timeline-tile-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="bitbucket/TimelineTile/bitbucket-timeline-tile-details-view.html" />
+        <property name="title" description="Tile title." default="Stash Commits Timeline"/>
+        <property name="server" category="input" label="Stash Server" referenced-type="stash.Server" kind="ci" />
+        <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
+        <property name="project" category="input" required="true" label="Project Name"/>
+        <property name="slug"    category="input" required="true" label="Project Slug" />
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used"/>
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+    </type>
+
+    <!-- Tile Configuration -->
+    <type type="stash.MergeRequestsTile" label="Stash Merge Requests Tile" extends="xlrelease.Tile" description="Display the breakdown of merge request statuses">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="bitbucket/MergeRequestsTile/bitbucket-merge-requests-tile-summary-view.html"/>
+        <property name="detailsUri" hidden="true" default="bitbucket/MergeRequestsTile/bitbucket-merge-requests-tile-details-view.html" />
+        <property name="title" description="Tile title." default="Stash Merge Requests Summary"/>
+        <property name="server" category="input" label="Stash Server" referenced-type="stash.Server" kind="ci" />
+        <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
+        <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
+        <property name="project" category="input" required="true" label="Project Name"/>
+        <property name="slug"    category="input" required="true" label="Project Slug" />
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+        <property name="sorting" category="input" kind="enum" required="true" label="Sorting" default="Creation Datetime Descending" hidden="true" description="Approach for sorting query results">
+            <enum-values>
+                <value>Creation Datetime Descending</value>
+                <value>Creation Datetime Ascending</value>
+                <value>Last Update Datetime Descending</value>
+                <value>Last Update Datetime Ascending</value>
+            </enum-values>
+        </property>
+        <property name="simple_view" category="input" kind="boolean" required="true" default="false" hidden="true" label="Simple View"
+        description="If simple view is enabled, only the iid, URL, title, description, and basic state of the merge request are extracted."/>
+        <property name="source_branch" category="input" required="false" label="Source Branch"
+        description="If a merge request source branch is provided, only matching merge requests will be returned.  For the value, provide a branch name, such as &quot;master&quot;."/>
+        <property name="target_branch" category="input" required="false" label="Target Branch"
+        description="If a merge request target branch is provided, only matching merge requests will be returned.  For the value, provide a branch name, such as &quot;master&quot;."/>
+        <property name="milestone" category="input" required="false" default="" hidden="true" label="Milestone"/>
+        <property name="state" category="input" kind="enum" required="true" default="all" hidden="true">
+            <enum-values>
+                <value label="Opened">opened</value>
+                <value label="Closed">closed</value>
+                <value label="Merged">merged</value>
+                <value label="Locked">locked</value>
+                <value label="All">all</value>
+            </enum-values>
+        </property>
+    </type>
 </synthetic>

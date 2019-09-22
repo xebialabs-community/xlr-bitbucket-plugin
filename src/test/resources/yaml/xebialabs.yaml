@@ -1,0 +1,6 @@
+apiVersion: xl/v1
+kind: Import
+metadata:
+  imports:
+    - xebialabs/xlr-configuration.yaml
+    - xebialabs/xlr-dashboards.yaml

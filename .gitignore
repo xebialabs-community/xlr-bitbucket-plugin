@@ -10,3 +10,4 @@ bin
 supervisord*
 src/test/resources/docker/bitbucket/data/*
 src/test/resources/docker/bitbucket/db/*
+secrets.xlvals

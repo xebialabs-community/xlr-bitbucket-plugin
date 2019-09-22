@@ -7,43 +7,12 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-bitbucket:
-  image: blacklabelops/bitbucket
-  links:
-    - postgres_bitbucket
-  volumes:
-    - ./bitbucket/data:/var/atlassian/bitbucket
-  ports:
-    - '7990:7990'
-  environment:
-    - 'BITBUCKET_PROXY_NAME='
-    - 'BITBUCKET_PROXY_PORT='
-    - 'BITBUCKET_PROXY_SCHEME='
-    - 'BITBUCKET_DELAYED_START='
-  labels:
-    com.blacklabelops.description: "Atlassian Bitbucket"
-    com.blacklabelops.service: "bitbucket"
+from stash.Stash import StashClient
+import json
 
-postgres_bitbucket:
-  image: blacklabelops/postgres
-  volumes:
-    - ./bitbucket/db:/var/lib/postgresql/data
-  environment:
-    - 'POSTGRES_USER=bitbucketdb'
-    # CHANGE THE PASSWORD!
-    - 'POSTGRES_PASSWORD=jellyfish'
-    - 'POSTGRES_DB=bitbucketdb'
-    - 'POSTGRES_ENCODING=UTF8'
-  labels:
-    com.blacklabelops.description: "PostgreSQL Database Server"
-    com.blacklabelops.service: "postgresql"
-
-xlrbb:
-  image: xebialabsunsupported/xlr_dev_run:9.0
-  volumes:
-    - ~/xl-licenses:/license
-    - ./../../../../:/data
-  links:
-   - bitbucket
-  ports:
-   - "5516:5516"
+if ( server == "" or project == "" or slug == "" ):
+    values = []
+    data = {"merge_requests": values }
+else:
+    stash = StashClient.get_client(server, username, password)
+    data = {"merge_requests": json.loads(stash.stash_querymergerequests(locals()))}
