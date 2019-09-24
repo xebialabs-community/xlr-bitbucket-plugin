@@ -15,4 +15,6 @@ if ( server == "" or project == "" or slug == "" ):
     data = {"merge_requests": values }
 else:
     stash = StashClient.get_client(server, username, password)
-    data = {"merge_requests": json.loads(stash.stash_querymergerequests(locals()))}
+    data = stash.stash_querymergerequests(locals())
+    data = {"merge_requests": json.loads(data)}
+    #data = stash.stash_querymergerequests(locals())

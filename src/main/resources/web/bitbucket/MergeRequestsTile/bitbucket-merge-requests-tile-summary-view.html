@@ -23,13 +23,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             var opened = 0;
             var merged = 0;
             var closed = 0;
-            var merge_requests = response.data.data.merge_requests;
+            var merge_requests = response.data.data.merge_requests.values;
             merge_requests.forEach(function (mergeData) {
-                if (mergeData.state === "opened")
+                if (mergeData.state === "OPEN")
                     opened++;
-                else if (mergeData.state === "merged")
+                else if (mergeData.state === "MERGED")
                     merged++;
-                else if (mergeData.state === "closed")
+                else if (mergeData.state === "DECLINED")
                     closed++;
            });
 

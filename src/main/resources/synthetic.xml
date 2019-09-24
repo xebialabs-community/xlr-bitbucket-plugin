@@ -225,26 +225,13 @@
         <property name="project" category="input" required="true" label="Project Name"/>
         <property name="slug"    category="input" required="true" label="Project Slug" />
         <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
-        <property name="sorting" category="input" kind="enum" required="true" label="Sorting" default="Creation Datetime Descending" hidden="true" description="Approach for sorting query results">
-            <enum-values>
-                <value>Creation Datetime Descending</value>
-                <value>Creation Datetime Ascending</value>
-                <value>Last Update Datetime Descending</value>
-                <value>Last Update Datetime Ascending</value>
-            </enum-values>
-        </property>
-        <property name="simple_view" category="input" kind="boolean" required="true" default="false" hidden="true" label="Simple View"
-        description="If simple view is enabled, only the iid, URL, title, description, and basic state of the merge request are extracted."/>
-        <property name="source_branch" category="input" required="false" label="Source Branch"
-        description="If a merge request source branch is provided, only matching merge requests will be returned.  For the value, provide a branch name, such as &quot;master&quot;."/>
         <property name="target_branch" category="input" required="false" label="Target Branch"
         description="If a merge request target branch is provided, only matching merge requests will be returned.  For the value, provide a branch name, such as &quot;master&quot;."/>
-        <property name="milestone" category="input" required="false" default="" hidden="true" label="Milestone"/>
-        <property name="state" category="input" kind="enum" required="true" default="all" hidden="true">
+        <property name="state" category="input" kind="enum" required="true" default="all" hidden="false">
             <enum-values>
-                <value label="Opened">opened</value>
-                <value label="Closed">closed</value>
-                <value label="Merged">merged</value>
+                <value label="Opened">OPEN</value>
+                <value label="Closed">DECLINED</value>
+                <value label="Merged">MERGED</value>
                 <value label="Locked">locked</value>
                 <value label="All">all</value>
             </enum-values>

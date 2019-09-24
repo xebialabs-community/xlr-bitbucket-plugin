@@ -23,18 +23,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <script>
     window.addEventListener("xlrelease.load", function () {
         window.xlrelease.queryTileData(function (response) {
-            var merge_requests = response.data.data.merge_requests;
+            var merge_requests = response.data.data.merge_requests.values;
             merge_requests.forEach(function (mergeData) {
                 $("#merge_requests").append(
                     '<tr>' +
-                    '<td><a href="' + mergeData.web_url + '" target="_blank_">' + mergeData.title + '</a></td>' +
+                    '<td><a href="' + mergeData.links.self.href + '" target="_blank_">' + mergeData.title + '</a></td>' +
                     '<td>' + mergeData.id + '</td>' +
                     '<td>' + mergeData.state + '</td>' +
-                    '<td>' + mergeData.author.name + '</td>' +
+                    '<td>' + mergeData.author.user.name + '</td>' +
                     '<td>' + mergeData.source_branch + '</td>' +
                     '<td>' + mergeData.target_branch + '</td>' +
-                    '<td>' + mergeData.source_project_id + '</td>' +
-                    '<td>' + mergeData.target_project_id + '</td>' +
+                    '<td>' + mergeData.fromRef.name + '</td>' +
+                    '<td>' + mergeData.toRef.name + '</td>' +
                     '</tr>'
                 );
             })

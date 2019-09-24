@@ -36,16 +36,13 @@ spec:
       server: stash
       project: TEST
       slug: demo
-  - name: test
-    type: xlrelease.BlankDashboard
-    owner: admin
-    tiles:
-    - name: Stash Commits Summary
-      type: stash.CommitsTile
-      width: 4
+    - name: Stash Merge Requests Summary
+      type: stash.MergeRequestsTile
+      width: 2
       height: 2
-      row: 0
-      col: 0
+      row: 2
+      col: 4
       server: stash
       project: TEST
       slug: demo
+      target_branch: master
