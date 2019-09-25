@@ -4,3 +4,4 @@ metadata:
   imports:
     - xebialabs/xlr-configuration.yaml
     - xebialabs/xlr-dashboards.yaml
+    - xebialabs/xlr-templates.yaml

@@ -216,10 +216,29 @@ class StashClient(object):
 
         return {'output': capturedOutput}
 
+    def stash_commitsquery(self, variables):
+        variables['slug'] = variables['repository']
+        data = json.loads(self.stash_querycommits(variables))
+        print "back with data"
+        commits = data['values']
+        print "#######################################"
+        print "## Build commitList"
+        print "## %s" % commits
+        commitList = []
+        for commit in commits:
+            print "~%s~" % commit['message']
+            commitList.append( commit['message'] )
+        print "#######################################"
+        #results = { "output": data }
+        results = { "output": data, "commitList": commitList }
+        return results
+
     # Requires the stash archive plugin installed
     def stash_querycommits(self, variables):
         #endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/commits/%s" % (variables['project'], variables['slug'], variables['branch'])
-        endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/commits" % (variables['project'], variables['slug'])
+        endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/commits?limit=%s" % (variables['project'], variables['slug'], variables['results_limit'])
+        if ( variables['tag'] is not None ):
+            endpoint_get = "%s&at=refs/tags/%s" % (endpoint_get, variables['tag'])
         response = self.api_call('GET', endpoint_get, contentType="application/json", Origin = variables['server']['url'])
         data = response.getResponse()
         print "####################################################"

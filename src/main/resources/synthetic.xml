@@ -163,6 +163,14 @@
         <property name="branch"  category="input" description="Branch to delete" />
     </type>
 
+    <type type="stash.CommitsQuery" extends="stash.Task">
+        <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used" default="master"/>
+        <property name="tag"    category="input" required="false" label="Tag Name" />
+        <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
+
+        <property name="commitList" category="output" kind="list_of_string" />
+    </type>
+
     <!--
         ######################################################################
         ##                      S T A S H                                   ##
@@ -180,6 +188,7 @@
         <property name="project" category="input" required="true" label="Project Name"/>
         <property name="slug"    category="input" required="true" label="Project Slug" />
         <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used" default="master"/>
+        <property name="tag"    category="input" required="true" label="Tag Name" />
         <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
     </type>
 
@@ -195,6 +204,7 @@
         <property name="project" category="input" required="true" label="Project Name"/>
         <property name="slug"    category="input" required="true" label="Project Slug" />
         <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used"/>
+        <property name="tag"    category="input" required="true" label="Tag Name" />
         <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
     </type>
 
@@ -210,6 +220,7 @@
         <property name="project" category="input" required="true" label="Project Name"/>
         <property name="slug"    category="input" required="true" label="Project Slug" />
         <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used"/>
+        <property name="tag"    category="input" required="true" label="Tag Name" />
         <property name="results_limit" category="input" kind="integer" required="true" label="Results Limit" default="100" description="Upper limit on the number of pull requests to return from the query."/>
     </type>
 
