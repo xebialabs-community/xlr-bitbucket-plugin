@@ -31,7 +31,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     };
     window.addEventListener("xlrelease.load", function () {
         window.xlrelease.queryTileData(function (response) {
-            var commits = response.data.data.commits.values;
+            var commits = response.data.data.commits.parents;
             commits.forEach(function (commit) {
                 $("#commits").append(
                     '<tr>' +

@@ -19,7 +19,7 @@ def convertRFC3339ToDate(timestamp):
 
 stash = StashClient.get_client(server, username, password)
 data = json.loads(stash.stash_querycommits(locals()))
-commits = data['values']
+commits = data['parents']
 
 # Compile data for summary view
 commitsByDay = {}

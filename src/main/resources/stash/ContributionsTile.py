@@ -15,7 +15,7 @@ if ( server == "" or project == "" or slug == "" ):
 else:
     stash = StashClient.get_client(server, username, password)
     data = json.loads(stash.stash_querycommits(locals()))
-    commits = data['values']
+    commits = data['parents']
 
 authors = {}
 committers = {}
