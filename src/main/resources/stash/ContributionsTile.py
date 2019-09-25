@@ -9,41 +9,33 @@
 #
 
 from stash.Stash import StashClient
-import datetime
+import json
 
-def convertMillisEpoch(millis):
-    return datetime.datetime.fromtimestamp(float(millis)/1000).strftime('%Y-%m-%d %H:%M:%S %Z')
+if ( server == "" or project == "" or slug == "" ):
+    commits = []
+else:
+    stash = StashClient.get_client(server, username, password)
+    data = json.loads(stash.stash_querycommits(locals()))
+    commits = data['values']
 
-stash = StashClient.get_client(server, username, password)
-method = "stash_querycommits"
-call = getattr(stash, method)
-response = call(locals())
-
-commits = response["output"]
-
-# Compile data for detail and summary views
 authors = {}
 committers = {}
 people = []
 for commit in commits:
-    if commit["author"]["name"] in authors.keys():
-        authors[commit["author"]["name"]] += 1
+    print "commit: %s" % commit
+    if commit['author']['name'] in authors.keys():
+        authors[commit['author']['name']] += 1
     else:
-        authors[commit["author"]["name"]] = 1
-    if commit["author"]["name"] not in people:
-        people.append(commit["author"]["name"])
+        authors[commit['author']['name']] = 1
+    if commit['author']['name'] not in people:
+        people.append(commit['author']['name'])
 
-    if commit["committer"]["name"] in committers.keys():
-        committers[commit["committer"]["name"]] += 1
+    if commit['committer']['name'] in committers.keys():
+        committers[commit['committer']['name']] += 1
     else:
-        committers[commit["committer"]["name"]] = 1
-    if commit["committer"]["name"] not in people:
-        people.append(commit["committer"]["name"])
-
-# Convert timestamps to a user-friendly format
-for i in range(len(commits)):
-    commits[i]["authorTimestamp"] = convertMillisEpoch(commits[i]["authorTimestamp"])
-    commits[i]["committerTimestamp"] = convertMillisEpoch(commits[i]["committerTimestamp"])
+        committers[commit['committer']['name']] = 1
+    if commit['committer']['name'] not in people:
+        people.append(commit['committer']['name'])
 
 data = {
     "commits": commits,

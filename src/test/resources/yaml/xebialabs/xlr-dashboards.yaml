@@ -1,0 +1,48 @@
+---
+apiVersion: xl-release/v1
+kind: Templates
+spec:
+- directory: bitbucket
+  children:
+  - name: bitbucket
+    type: xlrelease.BlankDashboard
+    owner: admin
+    tiles:
+    - name: Stash Commits Summary
+      type: stash.CommitsTile
+      width: 4
+      height: 2
+      row: 2
+      col: 0
+      server: stash
+      project: TEST
+      slug: demo
+      branch: ""
+    - name: Stash Contributions Summary
+      type: stash.ContributionsTile
+      width: 2
+      height: 2
+      row: 0
+      col: 4
+      server: stash
+      project: TEST
+      slug: demo
+    - name: Stash Commits Timeline
+      type: stash.TimelineTile
+      width: 4
+      height: 2
+      row: 0
+      col: 0
+      server: stash
+      project: TEST
+      slug: demo
+    - name: Stash Merge Requests Summary
+      type: stash.MergeRequestsTile
+      width: 2
+      height: 2
+      row: 2
+      col: 4
+      server: stash
+      project: TEST
+      slug: demo
+      target_branch: master

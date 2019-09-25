@@ -11,23 +11,23 @@
 
 from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 from java.util import HashMap
-import sys
 
 
-def handle_request(event, template_filter=None):
+def handle_request(event, template_filter = None):
+
+    print event
+    print template_filter
     logger.info(str(event))
-    logger.info(str(template_filter))
-    try:
-        if event["push"]:
-            logger.info("Found push event for template %s " % template_filter)
-            handle_push_event(event, template_filter)
-    except Exception:
-        e = sys.exc_info()[1]
-        msg = ("Could not parse payload, check your Bitbucket Webhook "
-               "configuration. Error: %s. Payload:\n%s" % (e, event))
-        logger.warn(msg)
-        return
-
+    #try:
+    #    if event["push"]:
+    #        logger.info("Found push event for template %s " % template_filter)
+    #        handle_push_event(event, template_filter)
+    #except:
+    #    e = sys.exc_info()[1]
+    #    msg = ("Could not parse payload, check your Bitbucket Webhook "
+    #           "configuration. Error: %s. Payload:\n%s" % (e, event))
+    #    logger.warn(msg)
+    #    return
 
 def handle_push_event(event, template_filter):
     proj_name = event['proj']
@@ -36,18 +36,11 @@ def handle_push_event(event, template_filter):
     pr_title = event['pr_title']
     comment = event['comment']
     source_hash = event['source_hash']
-    source_branch = event['source_branch']
-    source_project = event['source_project']
-    source_repo = event['source_repo']
-    target_branch = event['target_branch']
-    target_project = event['target_project']
-    target_repo = event['target_repo']
     target_hash = event['target_hash']
+    start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash,target_hash, template_filter)
 
-    start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash, target_hash, source_branch, source_project, source_repo, target_branch, target_project, target_repo, template_filter)
 
-
-def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter=None):
+def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter = None):
     templates = templateApi.getTemplates(template_filter)
     if not templates:
         raise Exception('Could not find any templates by tag [pull_request_merger]. '
@@ -58,7 +51,7 @@ def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, t
         template_id = templates[0].id
 
     params = StartRelease()
-    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name, branch_name))
+    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name,branch_name))
     variables = HashMap()
     variables.put('${repo_full_name}', '%s' % repo_full_name)
     variables.put('${branch_name}', '%s' % branch_name)
@@ -69,7 +62,7 @@ def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, t
     logger.info("Started Release %s for BRANCH: %s/%s" % (started_release.getId(), repo_full_name, branch_name))
 
 
-def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash, target_hash, source_branch, source_project, source_repo, target_branch, target_project, target_repo, tag='pull_request_merger'):
+def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash,target_hash, tag = 'pull_request_merger'):
     pr_templates = templateApi.getTemplates(tag)
     if not pr_templates:
         raise Exception('Could not find any templates by tag [pull_request_merger]. '
@@ -88,17 +81,10 @@ def start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_
     variables.put('${pull_request_comment}', '%s' % comment)
     variables.put('${proj_name}', '%s' % proj_name)
     variables.put('${source_hash}', '%s' % source_hash)
-    variables.put('${source_branch}', '%s' % source_branch)
-    variables.put('${source_project}', '%s' % source_project)
-    variables.put('${source_repo}', '%s' % source_repo)
     variables.put('${target_hash}', '%s' % target_hash)
-    variables.put('${target_branch}', '%s' % target_branch)
-    variables.put('${target_project}', '%s' % target_project)
-    variables.put('${target_repo}', '%s' % target_repo)
     params.setReleaseVariables(variables)
     started_release = templateApi.start(template_id, params)
     response.entity = started_release
     logger.info("Started release %s for Pull Request %s" % (started_release.getId(), pr_number))
-
 
 handle_request(request.entity, request.query['template'])

@@ -41,30 +41,6 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 
 + **Stash Push Webhook** `http://<xlr server:port>/api/extension/stash/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository. Requires [Web POST Hooks Plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview)
 + **Stash Pull Request Webhook** `http://<xlr server:port>/api/extension/stash/pr_webhook?template=<template name>` : This can be used to push Pull Request notifications. Requires [Pull Request Notifier Plugin](https://marketplace.atlassian.com/plugins/se.bjurr.prnfs.pull-request-notifier-for-stash/server/overview)
-	* Method : POST
-	* Provide Auth using XLR Credentials
-	* Provide Header :: Content-Type : application/json 
-	* Trigger Condition :  PR OPENED
-	* Select Option : Encode HTML ( so that commit squash line breaks get encoded)
-	* POST Body Content:
-	
-	```
-		{ "push":"true",
-	    "pr_number":"${PULL_REQUEST_ID}",
-	    "repository":"${PULL_REQUEST_FROM_REPO_SLUG}",
-	    "proj": "${PULL_REQUEST_FROM_REPO_PROJECT_KEY}",
-	    "pr_title":"${PULL_REQUEST_TITLE}",
-	    "comment" :"${PULL_REQUEST_DESCRIPTION}",
-	    "source_hash":"${PULL_REQUEST_FROM_HASH}",
-	    "source_branch":"${PULL_REQUEST_FROM_BRANCH}",
-	    "source_project":"${PULL_REQUEST_FROM_REPO_PROJECT_KEY}",
-	    "source_repo":"${PULL_REQUEST_FROM_REPO_SLUG}",
-	    "target_hash": "${PULL_REQUEST_TO_HASH}",
-	    "target_branch":"${PULL_REQUEST_TO_BRANCH}",
-	    "target_project":"${PULL_REQUEST_TO_REPO_PROJECT_KEY}",
-	    "target_repo":"${PULL_REQUEST_TO_REPO_SLUG}"
-	    }
-	```
 + **Bitbucket Push Webhook** `http://<xlr server:port>/api/extension/bitbucket/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository.
 
 ### Bitbucket Tasks ###
@@ -96,31 +72,25 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 # Commit Trigger Usage #
 
 * Stash commit trigger configuration
-
 ![](images/stash/stashcommittrigger1.png)
-
 ![](images/stash/stashcommittrigger2.png)
 
 # Bitbucket Tasks Usage #
    
 * Setup the server configuration
-
 ![](images/bitbucket/config.png)
 
 * Create pull request 
-
 ![](images/bitbucket/createpullrequest.png)
 
 * Merge pull request
-
 ![](images/bitbucket/mergepullrequest.png)
 
 * Wait for merge
-
 ![](images/bitbucket/waitformerge.png)
 
-* Download Code 
 
+* Download Code 
 ![](images/bitbucket/downloadcodezip.png)
 
 
@@ -128,42 +98,33 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 
    
 * Setup the server configuration
-
 ![](images/stash/config.png)
 
 * Create pull request 
-
 ![](images/stash/createpullrequest.png)
 
 * Merge pull request
-
 ![](images/stash/mergepullrequest.png)
 
 * Wait for merge
 ![](images/stash/waitformerge.png)
 
 * Decline pull request
-
 ![](images/stash/declinepullrequest.png)
 
 * Delete branch 
-
 ![](images/stash/deletebranch.png)
 
 * Search file content
-
 ![](images/stash/searchfilecontent.png)
 
 * Download Code 
-
 ![](images/stash/downloadcodezip.png)
 
 * Get Pull Request
-
 ![](images/stash/getpullrequest.png)
 
 * Tag Release
-
 ![](images/stash/tagrelease.png)
 
 # References #

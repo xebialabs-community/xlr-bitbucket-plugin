@@ -1,0 +1,40 @@
+---
+apiVersion: xl-release/v1
+kind: Templates
+spec:
+- directory: bitbucket
+  children:
+  - template: demo
+    scheduledStartDate: 2019-09-24T14:00:00Z
+    dueDate: 2019-09-25T05:47:01.296Z
+    phases:
+    - phase: New Phase
+      tasks:
+      - name: get commit list
+        type: stash.CommitsQuery
+        server: stash
+        project: TEST
+        repository: demo
+        variableMapping:
+          pythonScript.commitList: ${commitsDayOne}
+      - name: build query
+        type: xlrelease.ScriptTask
+        script: "commitMessageList = releaseVariables[\"commitsDayOne\"]\n\njiraWhere\
+          \ = \"\"\nfor msg in commitMessageList:\n    ticket = msg.split(\":\")[0]\n\
+          \    jiraWhere = \"%s id=%s or \" % ( jiraWhere, ticket)\n    \nreleaseVariables[\"\
+          queryDayOne\"] = jiraWhere"
+      - name: gate
+        type: xlrelease.GateTask
+      - name: jira tickets
+        type: jira.Query
+        query: ${queryDayOne}
+    variables:
+    - type: xlrelease.ListStringVariable
+      key: commitsDayOne
+      requiresValue: false
+      showOnReleaseStart: false
+    - type: xlrelease.StringVariable
+      key: queryDayOne
+      requiresValue: false
+      showOnReleaseStart: false
+    riskProfile: Default risk profile

@@ -9,28 +9,24 @@
 #
 
 from stash.Stash import StashClient
-import datetime
-from java.time import LocalDate
+import json
+import time
+from java.time import LocalDate, ZonedDateTime
 
-def convertMillisEpochDateComponents(millis):
-    isodate = datetime.datetime.fromtimestamp(float(millis)/1000).strftime('%Y-%m-%d').split('-')
-    isodate = [int(dateComponent) for dateComponent in isodate]
-    return LocalDate.of(isodate[0], isodate[1], isodate[2])
-
-def convertMillisEpoch(millis):
-    return datetime.datetime.fromtimestamp(float(millis)/1000).strftime('%Y-%m-%d %H:%M:%S %Z')
+def convertRFC3339ToDate(timestamp):
+    zonedDateTime = ZonedDateTime.parse(timestamp)
+    return zonedDateTime.toLocalDate()
 
 stash = StashClient.get_client(server, username, password)
-method = "stash_querycommits"
-call = getattr(stash, method)
-response = call(locals())
-
-commits = response["output"]
+data = json.loads(stash.stash_querycommits(locals()))
+commits = data['values']
 
 # Compile data for summary view
 commitsByDay = {}
 for commit in commits:
-    commitDate = convertMillisEpochDateComponents(commit["committerTimestamp"])
+    #commitDate = convertRFC3339ToDate(commit["committerTimestamp"])
+    stringDate = time.strftime("%Y-%m-%dT%H:%M:%S.00Z", time.localtime(commit["committerTimestamp"]/1000))
+    commitDate = convertRFC3339ToDate(stringDate)
     if commitDate in commitsByDay.keys():
         commitsByDay[commitDate] += 1
     else:
@@ -50,11 +46,6 @@ while startDate.isBefore(endDate.plusDays(1)):
     else:
         commitsEachDay.append(0)
     startDate = startDate.plusDays(1)
-
-# Convert timestamps to a user-friendly format for the detail view
-for i in range(len(commits)):
-    commits[i]["authorTimestamp"] = convertMillisEpoch(commits[i]["authorTimestamp"])
-    commits[i]["committerTimestamp"] = convertMillisEpoch(commits[i]["committerTimestamp"])
 
 data = {
     "dates": days,

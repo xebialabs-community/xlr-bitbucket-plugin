@@ -1,0 +1,11 @@
+---
+apiVersion: xl-release/v1
+kind: Templates
+spec:
+- directory: bitbucket
+  children:
+  - name: stash
+    type: stash.Server
+    url: http://bitbucket:7990
+    username: admin
+    password: !value "stash_Server_stash_password"
