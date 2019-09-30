@@ -1,0 +1,47 @@
+---
+apiVersion: xl-release/v1
+kind: Templates
+spec:
+- directory: bitbucket
+  children:
+  - name: bitbucket
+    type: xlrelease.BlankDashboard
+    owner: admin
+    tiles:
+    - name: Bitbucket Commits Summary
+      type: bitbucket.CommitsTile
+      width: 4
+      height: 2
+      row: 2
+      col: 0
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      branch: master
+    - name: Bitbucket Contributions Summary
+      type: bitbucket.ContributionsTile
+      width: 2
+      height: 2
+      row: 0
+      col: 4
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      branch: master
+      tag: ""
+    - name: Bitbucket Commits Timeline
+      type: bitbucket.TimelineTile
+      width: 4
+      height: 2
+      row: 0
+      col: 0
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      branch: master
+    - name: Bitbucket Merge Requests Summary
+      type: bitbucket.MergeRequestsTile
+      width: 2
+      height: 2
+      row: 2
+      col: 4
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      target_branch: master

@@ -12,5 +12,7 @@ kind: Import
 metadata:
   imports:
     - xebialabs/xlr-configuration.yaml
-    - xebialabs/xlr-dashboards.yaml
-    - xebialabs/xlr-templates.yaml
+    - xebialabs/xlr-stash-dashboards.yaml
+    - xebialabs/xlr-bitbucket-dashboards.yaml
+    - xebialabs/xlr-bitbucket-template.yaml
+    - xebialabs/xlr-stash-template.yaml

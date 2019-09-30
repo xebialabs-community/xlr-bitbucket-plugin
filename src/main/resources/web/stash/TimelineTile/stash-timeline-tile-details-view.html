@@ -21,6 +21,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <script>
+  function formatDate( ts ) {
+    var d = new Date( ts );
+    var formattedDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+    var hours = (d.getHours() < 10) ? "0" + d.getHours() : d.getHours();
+    var minutes = (d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes();
+    var formattedTime = hours + ":" + minutes;
+    return formattedDate + " " + formattedTime;
+  };
     window.addEventListener("xlrelease.load", function () {
         window.xlrelease.queryTileData(function (response) {
             var commits = response.data.data.commits;
@@ -33,13 +41,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 $("#commits").append(
                     '<tr>' +
                     '<td>' + commit.displayId + '</td>' +
-                    '<td>' + commit.authorTimestamp + '</td>' +
+                    '<td>' + formatDate(commit.authorTimestamp) + '</td>' +
+                    '<td>' + commit.author.name +
+                    ' (<a href="mailto:' + commit.author.emailAddress + '">' + commit.committer.emailAddress + '</a>)</td>' +
+                    '<td>' + formatDate(commit.committerTimestamp) + '</td>' +
                     '<td>' + commit.author.name +
                     ' (<a href="mailto:' + commit.author.emailAddress + '">' + commit.author.emailAddress + '</a>)</td>' +
-                    '<td>' + commit.committerTimestamp + '</td>' +
-                    '<td>' + commit.committer.name +
-                    ' (<a href="mailto:' + commit.committer.emailAddress + '">' + commit.committer.emailAddress + '</a>)</td>' +
-                    '<td>' + message + '</td>' +
+                    '<td>' + commit.message + '</td>' +
                     '</tr>'
                 );
             })
@@ -50,7 +58,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <table class="table table-rounded table-striped">
     <thead>
     <tr>
-        <th>Commit ID</th>
+        <th>Commit&nbsp;ID</th>
         <th>Authored Date</th>
         <th>Author</th>
         <th>Committed Date</th>

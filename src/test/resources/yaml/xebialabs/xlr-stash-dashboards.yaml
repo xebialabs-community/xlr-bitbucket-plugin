@@ -4,7 +4,7 @@ kind: Templates
 spec:
 - directory: bitbucket
   children:
-  - name: bitbucket
+  - name: stash
     type: xlrelease.BlankDashboard
     owner: admin
     tiles:

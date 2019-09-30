@@ -40,13 +40,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 }
                 $("#commits").append(
                     '<tr>' +
-                    '<td>' + commit.displayId + '</td>' +
-                    '<td>' + formatDate(commit.authorTimestamp) + '</td>' +
-                    '<td>' + commit.author.name +
-                    ' (<a href="mailto:' + commit.author.emailAddress + '">' + commit.committer.emailAddress + '</a>)</td>' +
-                    '<td>' + formatDate(commit.committerTimestamp) + '</td>' +
-                    '<td>' + commit.author.name +
-                    ' (<a href="mailto:' + commit.author.emailAddress + '">' + commit.author.emailAddress + '</a>)</td>' +
+                    '<td>' + commit.hash + '</td>' +
+                    '<td>' + commit.date + '</td>' +
+                    '<td>' + commit.author.user.display_name +
+                    ' (<a href="mailto:' + commit.author.raw + '">' + commit.author.raw + '</a>)</td>' +
+                    '<td>' + commit.date + '</td>' +
+                    '<td>' + commit.author.user.display_name +
+                    ' (<a href="mailto:' + commit.author.raw + '">' + commit.author.raw + '</a>)</td>' +
                     '<td>' + commit.message + '</td>' +
                     '</tr>'
                 );
