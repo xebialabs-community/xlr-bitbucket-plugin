@@ -7,19 +7,13 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
----
-apiVersion: xl-release/v1
-kind: Templates
-spec:
-- directory: bitbucket
-  children:
-  - name: stash
-    type: stash.Server
-    url: http://bitbucket:7990
-    username: admin
-    password: !value "stash_Server_stash_password"
-  - name: bitbucket
-    type: bitbucket.Server
-    url: https://api.bitbucket.org
-    username: !value "bitbucket_Server_user"
-    password: !value "bitbucket_Server_password"
+from bitbucket.Bitbucket import BitbucketClient
+import json
+
+if ( server == "" or repo_full_name == "" ):
+    values = []
+    data = {"merge_requests": values }
+else:
+    bitbucket = BitbucketClient.get_client(server, username, password)
+    data = bitbucket.bitbucket_querymergerequests( locals() )
+    data = {"merge_requests": data}

@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="gitlab-merge-requests-tile.css" type="text/css">
+    <link rel="stylesheet" href="stash-merge-requests-tile.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -23,7 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             var opened = 0;
             var merged = 0;
             var closed = 0;
-            var merge_requests = response.data.data.merge_requests;
+            var merge_requests = response.data.data.merge_requests.values;
             merge_requests.forEach(function (mergeData) {
                 if (mergeData.state === "OPEN")
                     opened++;

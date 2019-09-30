@@ -17,41 +17,40 @@ spec:
     type: xlrelease.BlankDashboard
     owner: admin
     tiles:
-    - name: Stash Commits Summary
-      type: stash.CommitsTile
+    - name: Bitbucket Commits Summary
+      type: bitbucket.CommitsTile
       width: 4
       height: 2
       row: 2
       col: 0
-      server: stash
-      project: TEST
-      slug: demo
-      branch: ""
-    - name: Stash Contributions Summary
-      type: stash.ContributionsTile
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      branch: master
+    - name: Bitbucket Contributions Summary
+      type: bitbucket.ContributionsTile
       width: 2
       height: 2
       row: 0
       col: 4
-      server: stash
-      project: TEST
-      slug: demo
-    - name: Stash Commits Timeline
-      type: stash.TimelineTile
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      branch: master
+      tag: ""
+    - name: Bitbucket Commits Timeline
+      type: bitbucket.TimelineTile
       width: 4
       height: 2
       row: 0
       col: 0
-      server: stash
-      project: TEST
-      slug: demo
-    - name: Stash Merge Requests Summary
-      type: stash.MergeRequestsTile
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
+      branch: master
+    - name: Bitbucket Merge Requests Summary
+      type: bitbucket.MergeRequestsTile
       width: 2
       height: 2
       row: 2
       col: 4
-      server: stash
-      project: TEST
-      slug: demo
+      server: bitbucket
+      repo_full_name: zvercodebender/myfirstrepo
       target_branch: master

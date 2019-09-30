@@ -1,5 +1,4 @@
-<!--
-Copyright 2019 XEBIALABS
+<!-- Copyright 2019 XEBIALABS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -9,10 +8,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 -->
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <!-- Bootstrap CSS dependency -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="gitlab-merge-requests-tile.css" type="text/css">
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -21,33 +21,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <script>
-  function formatDate( ts ) {
-    var d = new Date( ts );
-    var formattedDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-    var hours = (d.getHours() < 10) ? "0" + d.getHours() : d.getHours();
-    var minutes = (d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes();
-    var formattedTime = hours + ":" + minutes;
-    return formattedDate + " " + formattedTime;
-  };
     window.addEventListener("xlrelease.load", function () {
         window.xlrelease.queryTileData(function (response) {
-            var commits = response.data.data.commits;
-            commits.forEach(function (commit) {
-                if(commit.message.length > 64) {
-                    var message = commit.message.substring(0, 61).concat('...');
-                } else {
-                    var message = commit.message;
-                }
-                $("#commits").append(
+            var merge_requests = response.data.data.merge_requests.values;
+            merge_requests.forEach(function (mergeData) {
+                $("#merge_requests").append(
                     '<tr>' +
-                    '<td>' + commit.displayId + '</td>' +
-                    '<td>' + formatDate(commit.authorTimestamp) + '</td>' +
-                    '<td>' + commit.author.name +
-                    ' (<a href="mailto:' + commit.author.emailAddress + '">' + commit.committer.emailAddress + '</a>)</td>' +
-                    '<td>' + formatDate(commit.committerTimestamp) + '</td>' +
-                    '<td>' + commit.author.name +
-                    ' (<a href="mailto:' + commit.author.emailAddress + '">' + commit.author.emailAddress + '</a>)</td>' +
-                    '<td>' + commit.message + '</td>' +
+                    '<td><a href="' + mergeData.links.self.href + '" target="_blank_">' + mergeData.title + '</a></td>' +
+                    '<td>' + mergeData.id + '</td>' +
+                    '<td>' + mergeData.state + '</td>' +
+                    '<td>' + mergeData.author.user.name + '</td>' +
+                    '<td>' + mergeData.fromRef.id + '</td>' +
+                    '<td>' + mergeData.toRef.id + '</td>' +
+                    '<td>' + mergeData.fromRef.repository.name + '</td>' +
+                    '<td>' + mergeData.toRef.repository.name + '</td>' +
                     '</tr>'
                 );
             })
@@ -58,15 +45,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <table class="table table-rounded table-striped">
     <thead>
     <tr>
-        <th>Commit&nbsp;ID</th>
-        <th>Authored Date</th>
+        <th>Merge Title</th>
+        <th>ID</th>
+        <th>State</th>
         <th>Author</th>
-        <th>Committed Date</th>
-        <th>Committer</th>
-        <th>Message</th>
+        <th>Source Branch</th>
+        <th>Target Branch</th>
+        <th>Source Project ID</th>
+        <th>Target Project ID</th>
     </tr>
     </thead>
-    <tbody id="commits">
+    <tbody id="merge_requests">
     </tbody>
 </table>
 </body>

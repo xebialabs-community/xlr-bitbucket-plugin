@@ -23,18 +23,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <script>
     window.addEventListener("xlrelease.load", function () {
         window.xlrelease.queryTileData(function (response) {
-            var merge_requests = response.data.data.merge_requests.values;
+            var merge_requests = response.data.data.merge_requests;
             merge_requests.forEach(function (mergeData) {
                 $("#merge_requests").append(
                     '<tr>' +
                     '<td><a href="' + mergeData.links.self.href + '" target="_blank_">' + mergeData.title + '</a></td>' +
-                    '<td>' + mergeData.id + '</td>' +
+                    '<td>' + mergeData.hash + '</td>' +
                     '<td>' + mergeData.state + '</td>' +
-                    '<td>' + mergeData.author.user.name + '</td>' +
-                    '<td>' + mergeData.fromRef.id + '</td>' +
-                    '<td>' + mergeData.toRef.id + '</td>' +
-                    '<td>' + mergeData.fromRef.repository.name + '</td>' +
-                    '<td>' + mergeData.toRef.repository.name + '</td>' +
+                    '<td>' + mergeData.author.display_name + '</td>' +
+                    '<td>' + mergeData.source.commit.hash + '</td>' +
+                    '<td>' + mergeData.destination.commit.hash + '</td>' +
+                    '<td>' + mergeData.source.repository.full_name + '</td>' +
+                    '<td>' + mergeData.destination.repository.full_name + '</td>' +
                     '</tr>'
                 );
             })

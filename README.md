@@ -57,7 +57,7 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 + `stash.DeclinePullRequest` : This task can be used to Decline a pull request
 + `stash.WaitForMerge` : This task waits and polls stash to check the status of a Pull request Merge Status
 + `stash.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository. Requires [Bitbucket Server Archive plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-archive/server/overview)
-+ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results. eg. 
++ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results. eg.
 
 	```
 	version[ ]*=[ ]*(\d+)
@@ -68,7 +68,7 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 + `stash.TagRelease` : This task adds a tag to a branch
 
 
-    
+
 # Commit Trigger Usage #
 
 * Stash commit trigger configuration
@@ -76,11 +76,11 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 ![](images/stash/stashcommittrigger2.png)
 
 # Bitbucket Tasks Usage #
-   
+
 * Setup the server configuration
 ![](images/bitbucket/config.png)
 
-* Create pull request 
+* Create pull request
 ![](images/bitbucket/createpullrequest.png)
 
 * Merge pull request
@@ -90,17 +90,17 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 ![](images/bitbucket/waitformerge.png)
 
 
-* Download Code 
+* Download Code
 ![](images/bitbucket/downloadcodezip.png)
 
 
 # Stash Tasks Usage #
 
-   
+
 * Setup the server configuration
 ![](images/stash/config.png)
 
-* Create pull request 
+* Create pull request
 ![](images/stash/createpullrequest.png)
 
 * Merge pull request
@@ -112,13 +112,13 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 * Decline pull request
 ![](images/stash/declinepullrequest.png)
 
-* Delete branch 
+* Delete branch
 ![](images/stash/deletebranch.png)
 
 * Search file content
 ![](images/stash/searchfilecontent.png)
 
-* Download Code 
+* Download Code
 ![](images/stash/downloadcodezip.png)
 
 * Get Pull Request
@@ -127,8 +127,13 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 * Tag Release
 ![](images/stash/tagrelease.png)
 
+* Query Commits
+![](images/stash/querycommits.png)
+
+* Stash Dashboard
+![](images/stash/stash-dashboard.png)
+
 # References #
 
 [Stash/Bitbucket Server REST API](https://developer.atlassian.com/stash/docs/latest/reference/rest-api.html)  
 [Bitbucket Cloud REST API](https://confluence.atlassian.com/bitbucket/use-the-bitbucket-cloud-rest-apis-222724129.html)
-

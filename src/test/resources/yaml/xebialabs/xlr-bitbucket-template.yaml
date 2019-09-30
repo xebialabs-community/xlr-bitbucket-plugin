@@ -13,37 +13,28 @@ kind: Templates
 spec:
 - directory: bitbucket
   children:
-  - template: demo
-    scheduledStartDate: 2019-09-24T14:00:00Z
-    dueDate: 2019-09-25T05:47:01.296Z
+  - template: bitbucket-template
+    scheduledStartDate: 2019-09-26T14:00:00Z
     phases:
     - phase: New Phase
       tasks:
-      - name: get commit list
-        type: stash.CommitsQuery
-        server: stash
-        project: TEST
-        repository: demo
-        variableMapping:
-          pythonScript.commitList: ${commitsDayOne}
-      - name: build query
-        type: xlrelease.ScriptTask
-        script: "commitMessageList = releaseVariables[\"commitsDayOne\"]\n\njiraWhere\
-          \ = \"\"\nfor msg in commitMessageList:\n    ticket = msg.split(\":\")[0]\n\
-          \    jiraWhere = \"%s id=%s or \" % ( jiraWhere, ticket)\n    \nreleaseVariables[\"\
-          queryDayOne\"] = jiraWhere"
+      - name: get commits
+        type: bitbucket.CommitsQuery
+        server: bitbucket
+        repo_full_name: zvercodebender/myfirstrepo
       - name: gate
         type: xlrelease.GateTask
-      - name: jira tickets
-        type: jira.Query
-        query: ${queryDayOne}
-    variables:
-    - type: xlrelease.ListStringVariable
-      key: commitsDayOne
-      requiresValue: false
-      showOnReleaseStart: false
-    - type: xlrelease.StringVariable
-      key: queryDayOne
-      requiresValue: false
-      showOnReleaseStart: false
     riskProfile: Default risk profile
+  - type: xlrelease.Dashboard
+    tiles:
+    - name: Release progress
+      type: xlrelease.ReleaseProgressTile
+    - name: Release summary
+      type: xlrelease.ReleaseSummaryTile
+    - name: Resource usage
+      type: xlrelease.ResourceUsageTile
+    - name: Release timeline
+      type: xlrelease.TimelineTile
+    - name: Release health
+      type: xlrelease.ReleaseHealthTile
+    parentTemplate: bitbucket-template

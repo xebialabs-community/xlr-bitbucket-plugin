@@ -14,12 +14,46 @@ spec:
 - directory: bitbucket
   children:
   - name: stash
-    type: stash.Server
-    url: http://bitbucket:7990
-    username: admin
-    password: !value "stash_Server_stash_password"
-  - name: bitbucket
-    type: bitbucket.Server
-    url: https://api.bitbucket.org
-    username: !value "bitbucket_Server_user"
-    password: !value "bitbucket_Server_password"
+    type: xlrelease.BlankDashboard
+    owner: admin
+    tiles:
+    - name: Stash Commits Summary
+      type: stash.CommitsTile
+      width: 4
+      height: 2
+      row: 2
+      col: 0
+      server: stash
+      project: TEST
+      slug: demo
+    - name: Stash Contributions Summary
+      type: stash.ContributionsTile
+      width: 2
+      height: 2
+      row: 0
+      col: 4
+      server: stash
+      project: TEST
+      slug: demo
+      branch: master
+      tag: ""
+    - name: Stash Commits Timeline
+      type: stash.TimelineTile
+      width: 4
+      height: 2
+      row: 0
+      col: 0
+      server: stash
+      project: TEST
+      slug: demo
+      branch: master
+    - name: Stash Merge Requests Summary
+      type: stash.MergeRequestsTile
+      width: 2
+      height: 2
+      row: 2
+      col: 4
+      server: stash
+      project: TEST
+      slug: demo
+      target_branch: master
