@@ -23,7 +23,7 @@ deploy:
       script: rsync --update -raz -i $TRAVIS_BUILD_DIR/build/libs/*.jar $DIST_USER@$DIST_HOST:$DIST_PATH/${TRAVIS_REPO_SLUG#*/}/
       on:
         all_branches: true
-#        tags: true
+        tags: true
         branch: master
         repo: xebialabs-community/xlr-bitbucket-plugin
 notifications:
