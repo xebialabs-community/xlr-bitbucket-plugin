@@ -24,7 +24,6 @@ deploy:
       on:
         all_branches: true
         tags: true
-        branch: master
         repo: xebialabs-community/xlr-bitbucket-plugin
 notifications:
   slack:
