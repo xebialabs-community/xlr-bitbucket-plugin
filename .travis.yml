@@ -1,16 +1,31 @@
 language: java
 jdk: openjdk8
+before_install:
+  - openssl aes-256-cbc -K $encrypted_e5bd312d25bf_key -iv $encrypted_e5bd312d25bf_iv
+    -in deploy_key.enc -out /tmp/deploy_key -d
+  - eval "$(ssh-agent -s)"
+  - echo -e "Host $DIST_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - chmod 600 /tmp/deploy_key
+  - ssh-add /tmp/deploy_key
+deploy:
+   -  provider: releases
+      api-key:
+        secure: WZgga57mmpfqbex4tc3WynxscGhV7xftItoFgrz23rtK7Ftkfdh/x72iEdyvkMZBArtS3OLooSPoT76qDeylPs5n5EWNDj3H6if98hPREB84C+YJ1YQuakvSxXq7ydPiWLAd+LYInmNgdPxYc3m2XMJqzpg4Pk85H3EeS4uJ6IkBY7AlFU31Q6QYTZVPeGq4DPlWKPNgbySCkkZYtZ9QK1/hBsG+NP0dUf3Pce1SSWYuNGiZn85CEtBhPHGA3N4EMThqZB49VJ17rYUz8ALtU6idds35w3DFx1umanfeXVLJpIWX27AXkHBwxJWm4bELpktRhg4PTMupU+mxuPxwEMyOt0HSWbXGrMQtdMWMBO61uC0jAR7rleconB2MySuXSjdaUVWcwHEblbLKkc7ty6fkiAQS56Fb8kMKOT8AtNzcWzaajYbpTZ0joB7MiPxsdGbjEV6st7KBjPKews58xscIfLpoQXIOrEjIqFPsuACttOcitFZh3BsMbyon+zDCzgDh6SL6Hc16r1GgpRqevWQ7kJy/DsLWNqaLKYxuAGrt6zWrdS32rsSEVLpiUiWaLUWGfdKuE0H3AByIh/KTCwYiW7ERtmpZIUDbhJXpP7HgunjfUZsDpeO2MgJasAgDW7EYVZiGC1gT0Y5W7/RfdQyBbEUi1jXYw3Km8AjHNGs=
+      file_glob: true
+      file: build/libs/*
+      skip_cleanup: true
+      on:
+        tags: true
+        all_branches: true
+        repo: xebialabs-community/xlr-bitbucket-plugin
+    - provider: script
+      skip_cleanup: true
+      script: rsync --update -raz -i $TRAVIS_BUILD_DIR/build/libs/*.jar $DIST_USER@$DIST_HOST:$DIST_PATH/${TRAVIS_REPO_SLUG#*/}/
+      on:
+        all_branches: true
+#        tags: true
+        branch: master
+        repo: xebialabs-community/xlr-bitbucket-plugin
 notifications:
   slack:
     secure: jvryCN0GB0mH8KuyFhip3rR4SKSlZwDL0vNLrtS8V3O/+LeEgFlUgmFAilmmAmJPDYd3ZGjiIZkZk0brFElaM84RM8QN0B3ku0egokz+L1vY4rI1qBkIkS0rsaT+Rhin1GMiCrX8KoskeRw+PJCTfTIaGZMShzO/aiJkaFo5yQK/H2SI0SUpvkiexkCQrpq0uSN3miHKv9vdUVxU26g/lay3hO713l4K3y457m1692YV4X4ZZgoHK3xTpN0NjXNI0x2vVY4HmaEfApNdkNWSDgvza9L35lrcGbj1eRDlsL6+Zmn+Cy7hx+WPlySMvK8mw0hA4+O0fF1VNQVK6TVwBvQBpAHcYYfPOieQD1BaDlNSAbgJLstQfNYQJUgk6gQnnmbdn6dVfOmaUft2mmK6w4DnF8HZL1whkJKW0Z+84pm1V5qmoA6rUtI1iHTHR+Yqi4+tq1wr/ntTv+ug6oHex9FhtRa6szv9/hO6v7o0jYUnV1/car/VDLw8yoTQ1l6opBalLdt8g9lA6Sw92jXEZlh/oeG2vbw00q8vsUwRmvGTOcbh982YeDrClgywDML6T3pS2sFkitUAfSlMmWP47N4Y4EAr5AQQvfsBiUZwQ7NxsWdVrUFylPeQw1GG9I6IlPb4h7HhD5Gl1ic8zlKb/1BYLvel/Xw3cV5FSxDgi8g=
-deploy:
-  provider: releases
-  api-key:
-    secure: WZgga57mmpfqbex4tc3WynxscGhV7xftItoFgrz23rtK7Ftkfdh/x72iEdyvkMZBArtS3OLooSPoT76qDeylPs5n5EWNDj3H6if98hPREB84C+YJ1YQuakvSxXq7ydPiWLAd+LYInmNgdPxYc3m2XMJqzpg4Pk85H3EeS4uJ6IkBY7AlFU31Q6QYTZVPeGq4DPlWKPNgbySCkkZYtZ9QK1/hBsG+NP0dUf3Pce1SSWYuNGiZn85CEtBhPHGA3N4EMThqZB49VJ17rYUz8ALtU6idds35w3DFx1umanfeXVLJpIWX27AXkHBwxJWm4bELpktRhg4PTMupU+mxuPxwEMyOt0HSWbXGrMQtdMWMBO61uC0jAR7rleconB2MySuXSjdaUVWcwHEblbLKkc7ty6fkiAQS56Fb8kMKOT8AtNzcWzaajYbpTZ0joB7MiPxsdGbjEV6st7KBjPKews58xscIfLpoQXIOrEjIqFPsuACttOcitFZh3BsMbyon+zDCzgDh6SL6Hc16r1GgpRqevWQ7kJy/DsLWNqaLKYxuAGrt6zWrdS32rsSEVLpiUiWaLUWGfdKuE0H3AByIh/KTCwYiW7ERtmpZIUDbhJXpP7HgunjfUZsDpeO2MgJasAgDW7EYVZiGC1gT0Y5W7/RfdQyBbEUi1jXYw3Km8AjHNGs=
-  file_glob: true
-  file: build/libs/*
-  skip_cleanup: true
-  on:
-    tags: true
-    all_branches: true
-    repo: xebialabs-community/xlr-bitbucket-plugin
