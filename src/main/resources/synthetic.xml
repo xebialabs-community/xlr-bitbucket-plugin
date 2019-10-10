@@ -17,7 +17,7 @@
      -->
     <type type="stash.CommitTrigger" extends="xlrelease.ReleaseTrigger" description="Listens to a stash repository for fresh code commit ">
         <!-- repository -->
-        <property name="server" category="Repository" referenced-type="stash.Server" kind="ci" description="Artifactory server to poll"/>
+        <property name="server" category="Repository" referenced-type="stash.Server" kind="ci" description="Bitbucket server to poll"/>
         <property name="username" category="Repository" default="" required="false" description="Custom username to override global server configuration"/>
         <property name="password" category="Repository" default="" required="false" password="true" description="Custom password to override global server configuration"/>
         <property name="project" kind="string" category="Repository" required="true" description="Bitbucket project to monitor"/>
