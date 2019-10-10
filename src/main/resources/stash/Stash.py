@@ -133,7 +133,7 @@ class StashClient(object):
 
     def stash_tagrelease(self, variables):
         endpoint = "/rest/git/1.0/projects/%s/repos/%s/tags" % (variables['project'], variables['repository'])
-        logger.warn("Tag project (%s/%s" % (variables['project'], variables['repository']))
+        self.logger.warn("Tag project (%s/%s" % (variables['project'], variables['repository']))
         content = '''{"force":"true", "message":"%s", "name":"%s", "startPoint":"refs/heads/%s", "type":"ANNOTATED"}''' % (variables['message'], variables['tagname'], variables['branch'])
         response = self.api_call('POST',endpoint,body=content, contentType="application/json")
         data = response.getResponse()
