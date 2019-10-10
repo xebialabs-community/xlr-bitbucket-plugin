@@ -40,7 +40,7 @@
     -->
     <type type="bitbucket.CommitTrigger" extends="xlrelease.ReleaseTrigger" description="Listens to a bitbucket repository for fresh code commit ">
         <!-- repository -->
-        <property name="server" category="Repository" referenced-type="bitbucket.Server" kind="ci" description="Artifactory server to poll"/>
+        <property name="server" category="Repository" referenced-type="bitbucket.Server" kind="ci" description="Bitbucket server to poll"/>
         <property name="username" category="Repository" default="" required="false" description="Custom username to override global server configuration"/>
         <property name="password" category="Repository" default="" required="false" password="true" description="Custom password to override global server configuration"/>
         <property name="repo_full_name" category="Repository" required="true" label="Repository Full name" description="Full name eg. TeamName/Repository, Username/Repository"/>
