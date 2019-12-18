@@ -31,6 +31,27 @@
         <property name="branch" category="variables" required="false" description="Branch where the commit occurred."/>
     </type>
 
+    <!--
+         ######################################################################
+         ##                      S T A S H                                   ##
+         ##               Bitbucket Pull Request Trigger                     ##
+         ######################################################################
+     -->
+    <type type="stash.PullRequestTrigger" extends="xlrelease.ReleaseTrigger" description="Listens to a stash repository for new pull requests ">
+        <!-- repository -->
+        <property name="server" category="Repository" referenced-type="stash.Server" kind="ci" description="Bitbucket server to poll"/>
+        <property name="username" category="Repository" default="" required="false" description="Custom username to override global server configuration"/>
+        <property name="password" category="Repository" default="" required="false" password="true" description="Custom password to override global server configuration"/>
+        <property name="project" kind="string" category="Repository" required="true" description="Bitbucket project to monitor"/>
+        <property name="repository" kind="string" category="Repository" required="true" description="Bitbucket repository to monitor"/>
+        <property name="triggerOnInitialPublish" category="Options" kind="boolean" default="false" required="false" description="Should suppress error when project or repository not found . Set this to true when project or repository doesn't exist yet and you want to trigger a release on the initial publish. Default value is 'false'"/>
+        
+        <!-- output variables -->
+        <property name="prid" category="variables" required="false" description="Pull Request Id"/>
+        <property name="sourceBranch" category="variables" required="false" description="Source Branch Name"/>
+        <property name="targetBranch" category="variables" required="false" description="Target Branch Name"/>
+    </type>
+
 
     <!--
         ######################################################################
@@ -207,8 +228,7 @@
         <property name="target" category="input" default="master" description="Target branch" label="Target Branch" />
         <property name="title" category="input" description="Title for PR" label="PR Title" />
         <property name="description" category="input" description="Description for PR" label="PR Description" />
-        <!--<property name="reviewers" category="input" description="Reviewers for PR. Comma separated" label="PR Reviewers" />
-        -->
+        <property name="reviewers" category="input" description="Reviewers for PR. Comma separated" label="PR Reviewers" />
         <property name="prid" category="output" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 

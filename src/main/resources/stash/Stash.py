@@ -60,16 +60,26 @@ class StashClient(object):
             },
             "toRef": {
                 "id": "refs/heads/%s"
-            }
+            },
+            "reviewers": %s
         }''' % (str(variables['title']),
                 str(variables['description']),
                 str(variables['source']),
-                str(variables['target']))
+                str(variables['target']),
+                str(form_reviewers(variables['reviewers'])))
         self.logger.warn( "Submitting Pull Request %s using endpoint %s" % (content, endpoint) )
         response = self.api_call('POST',endpoint, body = content, contentType="application/json")
         data = json.loads(response.getResponse())
         self.logger.warn( "Pull Request created with ID %s " % data['id'] )
         return {'output' : data, 'prid' : data['id']}
+    
+    def form_reviewers(reviewers):
+        reviewer_str = '['
+        for reviewer in reviewers.split(','):
+            reviewer_str += '''{"user":{"name":"%s"}},''' % (reviewer.strip())
+        reviewer_str = reviewer_str[:-1]
+        reviewer_str += ']'
+        return reviewer_str
 
     def stash_mergepullrequest(self, variables):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))
