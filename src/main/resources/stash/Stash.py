@@ -55,7 +55,7 @@ class StashClient(object):
         reviewers_str = '['
         for reviewer in variables['reviewers'].split(','):
             reviewers_str += '''{"user":{"name":"%s"}},''' % (reviewer.strip())
-        reviewers_str = reviewer_str[:-1]
+        reviewers_str = reviewers_str[:-1]
         reviewers_str += ']'
         content = '''{
             "title": "%s",
