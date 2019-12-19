@@ -50,6 +50,14 @@ class StashClient(object):
             raise Exception("HTTP response code %s (%s)" % (response.getStatus(), response.errorDump()))
         return response
 
+    def form_reviewers(reviewers):
+        reviewer_str = '['
+        for reviewer in reviewers.split(','):
+            reviewer_str += '''{"user":{"name":"%s"}},''' % (reviewer.strip())
+        reviewer_str = reviewer_str[:-1]
+        reviewer_str += ']'
+        return reviewer_str
+        
     def stash_createpullrequest(self, variables):
         endpoint="/rest/api/1.0/projects/%s/repos/%s/pull-requests" % (variables['project'], variables['repository'])
         content = '''{
@@ -72,14 +80,6 @@ class StashClient(object):
         data = json.loads(response.getResponse())
         self.logger.warn( "Pull Request created with ID %s " % data['id'] )
         return {'output' : data, 'prid' : data['id']}
-    
-    def form_reviewers(reviewers):
-        reviewer_str = '['
-        for reviewer in reviewers.split(','):
-            reviewer_str += '''{"user":{"name":"%s"}},''' % (reviewer.strip())
-        reviewer_str = reviewer_str[:-1]
-        reviewer_str += ']'
-        return reviewer_str
 
     def stash_mergepullrequest(self, variables):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s" % (variables['project'], variables['repository'], str(variables['prid']))

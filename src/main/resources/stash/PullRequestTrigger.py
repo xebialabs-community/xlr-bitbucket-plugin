@@ -14,9 +14,9 @@ import json
 
 def findNewPR(pr_list, triggerState):
     prId = triggerState
-    sourceBranch, targetBranch = ''
+    sourceBranch = targetBranch = ''
     # loop over all open PRs and pick the next higher PR id
-    for prs in info["values"]:
+    for prs in pr_list["values"]:
         if prs['id'] > triggerState:
             prId = prs['id']
             sourceBranch = prs['fromRef']['displayId']
