@@ -16,14 +16,14 @@
 [xlr-bitbucket-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-bitbucket-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-bitbucket-plugin/total.svg
 
-This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket Server) and Bitbucket Cloud API
+This plugin offers an interface from XL Release to Atlassian Stash (now Bitbucket Server) and Bitbucket Cloud API.
 
 #### IMPORTANT ####
 
 * Use **Stash Connection and Stash Tasks** if you're using an **on-prem hosted Bitbucket Server**. Stash is now called Bitbucket Server.  
 * Use **Bitbucket Connection and Bitbucket Tasks** if you're using **Bitbucket Cloud**.
-* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix  
-* All Bitbucket Cloud tasks are based on api **/2.0/** prefix
+* All Stash/Bitbucket Server tasks are based on api **/rest/api/1.0/** prefix.
+* All Bitbucket Cloud tasks are based on api **/2.0/** prefix.
 
 
 # Development #
@@ -34,38 +34,37 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 
 ### Commit Pull Triggers ###
 
-+ `bitbucket.CommitTrigger` : This trigger can be used to poll Bitbucket cloud for triggering releases on code commit
-+ `stash.CommitTrigger` :  This trigger can be used to poll Stash for triggering releases on code commit
++ `bitbucket.CommitTrigger` : This trigger can be used to poll Bitbucket cloud for triggering releases on code commit.
++ `stash.CommitTrigger` :  This trigger can be used to poll Stash for triggering releases on code commit.
 
 ### Webhook (Push) ###
 
-+ **Stash Push Webhook** `http://<xlr server:port>/api/extension/stash/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository. Requires [Web POST Hooks Plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview)
-+ **Stash Pull Request Webhook** `http://<xlr server:port>/api/extension/stash/pr_webhook?template=<template name>` : This can be used to push Pull Request notifications. Requires [Pull Request Notifier Plugin](https://marketplace.atlassian.com/plugins/se.bjurr.prnfs.pull-request-notifier-for-stash/server/overview)
++ **Stash Push Webhook** `http://<xlr server:port>/api/extension/stash/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository. Requires [Web POST Hooks Plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-web-post-receive-hooks-plugin/server/overview).
++ **Stash Pull Request Webhook** `http://<xlr server:port>/api/extension/stash/pr_webhook?template=<template name>` : This can be used to push Pull Request notifications. Requires [Pull Request Notifier Plugin](https://marketplace.atlassian.com/plugins/se.bjurr.prnfs.pull-request-notifier-for-stash/server/overview).
 + **Bitbucket Push Webhook** `http://<xlr server:port>/api/extension/bitbucket/push_webhook?template=<template name>` : This can be used to push Commit notifications across branches in a repository.
 
 ### Bitbucket Tasks ###
 
-+ `bitbucket.CreatePullRequest` : This task helps to create a pull request
-+ `bitbucket.MergePullRequest` : This task helps to Merge a pull request
-+ `bitbucket.WaitForMerge` : This task waits and polls bitbucket to check the status of a Pull request Merge Status
-+ `bitbucket.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository
++ `bitbucket.CreatePullRequest` : This task helps to create a pull request.
++ `bitbucket.MergePullRequest` : This task helps to Merge a pull request.
++ `bitbucket.WaitForMerge` : This task waits and polls bitbucket to check the status of a Pull request Merge Status.
++ `bitbucket.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository.
 
 ### Stash Tasks ###    
 
-+ `stash.CreatePullRequest` : This task helps to create a pull request
-+ `stash.MergePullRequest` : This task helps to Merge a pull request
-+ `stash.DeclinePullRequest` : This task can be used to Decline a pull request
-+ `stash.WaitForMerge` : This task waits and polls stash to check the status of a Pull request Merge Status
-+ `stash.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository. Requires [Bitbucket Server Archive plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-archive/server/overview)
-+ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results. eg.
++ `stash.CreatePullRequest` : This task helps to create a pull request.
++ `stash.MergePullRequest` : This task helps to Merge a pull request.
++ `stash.DeclinePullRequest` : This task can be used to Decline a pull request.
++ `stash.WaitForMerge` : This task waits and polls stash to check the status of a Pull request Merge Status.
++ `stash.DownloadCode` : This task allows to export a code zip file that can be downloaded to a specified folder on XL Release server locally for a provided branch in repository. Requires [Bitbucket Server Archive plugin](https://marketplace.atlassian.com/plugins/com.atlassian.stash.plugin.stash-archive/server/overview).
++ `stash.searchFileContent` : This task allows to search a file's content in a repository/branch using a provided pattern and return group0 and group1 as results. E.g.,
 
 	```
 	version[ ]*=[ ]*(\d+)
-
 	```
 
-+ `stash.DeleteBranch` : This task allows to delete a branch
-+ `stash.TagRelease` : This task adds a tag to a branch
++ `stash.DeleteBranch` : This task allows to delete a branch.
++ `stash.TagRelease` : This task adds a tag to a branch.
 
 
 
@@ -135,5 +134,5 @@ This plugin offers an interface from XL Release to Atlassian Stash(Now Bitbucket
 
 # References #
 
-[Stash/Bitbucket Server REST API](https://developer.atlassian.com/stash/docs/latest/reference/rest-api.html)  
-[Bitbucket Cloud REST API](https://confluence.atlassian.com/bitbucket/use-the-bitbucket-cloud-rest-apis-222724129.html)
+* [Stash/Bitbucket Server REST API](https://developer.atlassian.com/stash/docs/latest/reference/rest-api.html)  
+* [Bitbucket Cloud REST API](https://confluence.atlassian.com/bitbucket/use-the-bitbucket-cloud-rest-apis-222724129.html)
