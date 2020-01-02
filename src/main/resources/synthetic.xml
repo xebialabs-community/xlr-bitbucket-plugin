@@ -207,8 +207,7 @@
         <property name="target" category="input" default="master" description="Target branch" label="Target Branch" />
         <property name="title" category="input" description="Title for PR" label="PR Title" />
         <property name="description" category="input" description="Description for PR" label="PR Description" />
-        <!--<property name="reviewers" category="input" description="Reviewers for PR. Comma separated" label="PR Reviewers" />
-        -->
+        <property name="reviewers" category="input" description="Reviewers for PR. Comma separated" label="PR Reviewers" />
         <property name="prid" category="output" description="Pull Request Id" label="Pull Request Id"/>
     </type>
 

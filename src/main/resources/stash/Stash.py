@@ -52,6 +52,11 @@ class StashClient(object):
 
     def stash_createpullrequest(self, variables):
         endpoint="/rest/api/1.0/projects/%s/repos/%s/pull-requests" % (variables['project'], variables['repository'])
+        reviewers_str = '['
+        for reviewer in variables['reviewers'].split(','):
+            reviewers_str += '''{"user":{"name":"%s"}},''' % (reviewer.strip())
+        reviewers_str = reviewers_str[:-1]
+        reviewers_str += ']'
         content = '''{
             "title": "%s",
             "description": "%s",
@@ -60,11 +65,13 @@ class StashClient(object):
             },
             "toRef": {
                 "id": "refs/heads/%s"
-            }
+            },
+            "reviewers": %s
         }''' % (str(variables['title']),
                 str(variables['description']),
                 str(variables['source']),
-                str(variables['target']))
+                str(variables['target']),
+                str(reviewers_str))
         self.logger.warn( "Submitting Pull Request %s using endpoint %s" % (content, endpoint) )
         response = self.api_call('POST',endpoint, body = content, contentType="application/json")
         data = json.loads(response.getResponse())
