@@ -256,7 +256,15 @@
     <type type="stash.DeleteBranch" extends="stash.Task">
         <property name="branch"  category="input" description="Branch to delete" />
     </type>
-
+    <type type="stash.CreateBranch" extends="stash.Task">
+        <property name="branchName" category="input" description="New Branch Name" label="Branch Name"/>
+        <property name="startPoint" category="input" description="Starting Point commit hash" label="Start Point Hash"/>
+        <property name="message" category="input" description="Message" label="Message"/>
+        <property name="output" required="false" category="output" description="Console output of the remote process (stdout)."/>
+    </type>
+    <type type="stash.ApprovePullRequest" extends="stash.Task">
+        <property name="prid" category="input" description="Pull Request Id" label="Pull Request Id"/>
+    </type>
     <type type="stash.CommitsQuery" extends="stash.Task">
         <property name="branch" category="input" required="false" label="Branch Name" description="If not provided, the default branch will be used" default="master"/>
         <property name="tag"    category="input" required="false" label="Tag Name" />
