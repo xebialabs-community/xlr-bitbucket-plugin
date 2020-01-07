@@ -42,7 +42,7 @@ class StashClient(object):
             options['method'] = method.upper()
             options['context'] = endpoint
             #self.logger.warn( options )
-            print options
+            self.logger( options )
             response = self.http_request.doRequest(**options)
         except ClientProtocolException:
             raise Exception("URL is not valid")
@@ -227,19 +227,19 @@ class StashClient(object):
         }''' % (str(variables['branchName']),
                 str(variables['startPoint']),
                 str(variables['message']))
-        print "Submitting Create Branch Request %s using endpoint %s" % (content, endpoint)
+        self.logger( "Submitting Create Branch Request %s using endpoint %s" % (content, endpoint) )
         response = self.api_call('POST', endpoint, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
-        print "Sucessfully created branch :  %s from commit has %s" % (str(variables['branch_name']), str(variables['startPoint']))
+        self.logger( "Sucessfully created branch :  %s from commit has %s" % (str(variables['branch_name']), str(variables['startPoint'])) )
         return {'output': data}
 
     def stash_approvepullrequest(self, variables):
         endpoint_post = "/rest/api/1.0/projects/%s/repos/%s/pull-requests/%s/approve" % (variables['project'], variables['repository'], str(variables['prid']))
         content = '{}'
-        print "Approving Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post)
+        self.logger("Approving Pull Request %s using endpoint %s" % (str(variables['prid']), endpoint_post) )
         response = self.api_call('POST', endpoint_post, body=content, contentType="application/json")
         data = json.loads(response.getResponse())
-        print "Pull Request %s approved sucessfully with STATE : %s" % (str(variables['prid']), data['status'])
+        self.logger("Pull Request %s approved sucessfully with STATE : %s" % (str(variables['prid']), data['status']))
         return {'output': data}
 
     def stash_commitsquery(self, variables):

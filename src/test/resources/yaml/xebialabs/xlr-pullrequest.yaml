@@ -1,0 +1,96 @@
+---
+apiVersion: xl-release/v1
+kind: Templates
+spec:
+- directory: bitbucket
+  children:
+  - template: pr
+    scheduledStartDate: 2020-01-06T14:00:00Z
+    releaseTriggers:
+    - name: Stash Trigger
+      type: stash.CommitTrigger
+      releaseTitle: Stash Trigger ${commitId} ${branch}
+      server: stash
+      username: admin
+      password: !value "stash_CommitTrigger_Stash_Trigger_password"
+      project: TEST
+      repository: demo
+      branchName: mydev
+      commitId: 9461da526022f28746c970ae02236994e0965f6e
+      branch: "22"
+    phases:
+    - phase: New Phase
+      tasks:
+      - name: Create Pull Request
+        type: stash.CreatePullRequest
+        server: stash
+        project: TEST
+        repository: demo
+        source: mydev
+        description: Trigger
+        variableMapping:
+          pythonScript.prid: ${pullRequest}
+      - name: Approve PR
+        type: stash.ApprovePullRequest
+        server: stash
+        username: rick
+        password: !value "stash_ApprovePullRequest_Approve_PR_password"
+        project: TEST
+        repository: demo
+        prid: ${pullRequest}
+      - name: Merge Pull Request
+        type: stash.MergePullRequest
+        server: stash
+        project: TEST
+        repository: demo
+        prid: ${pullRequest}
+      - name: gate
+        type: xlrelease.GateTask
+        precondition: False
+    variables:
+    - type: xlrelease.StringVariable
+      key: pullRequest
+      requiresValue: false
+      showOnReleaseStart: false
+    riskProfile: Default risk profile
+  - type: xlrelease.Dashboard
+    owner: admin
+    tiles:
+    - name: Release progress
+      type: xlrelease.ReleaseProgressTile
+    - name: Release summary
+      type: xlrelease.ReleaseSummaryTile
+    - name: Resource usage
+      type: xlrelease.ResourceUsageTile
+    - name: Release timeline
+      type: xlrelease.TimelineTile
+    - name: Release health
+      type: xlrelease.ReleaseHealthTile
+    parentTemplate: bitbucket-template
+  - type: xlrelease.Dashboard
+    tiles:
+    - name: Release progress
+      type: xlrelease.ReleaseProgressTile
+    - name: Release summary
+      type: xlrelease.ReleaseSummaryTile
+    - name: Resource usage
+      type: xlrelease.ResourceUsageTile
+    - name: Release timeline
+      type: xlrelease.TimelineTile
+    - name: Release health
+      type: xlrelease.ReleaseHealthTile
+    parentTemplate: pr
+  - type: xlrelease.Dashboard
+    owner: admin
+    tiles:
+    - name: Release progress
+      type: xlrelease.ReleaseProgressTile
+    - name: Release summary
+      type: xlrelease.ReleaseSummaryTile
+    - name: Resource usage
+      type: xlrelease.ResourceUsageTile
+    - name: Release timeline
+      type: xlrelease.TimelineTile
+    - name: Release health
+      type: xlrelease.ReleaseHealthTile
+    parentTemplate: stash-template

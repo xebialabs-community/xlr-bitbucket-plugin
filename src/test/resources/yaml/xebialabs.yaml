@@ -16,3 +16,4 @@ metadata:
     - xebialabs/xlr-bitbucket-dashboards.yaml
     - xebialabs/xlr-bitbucket-template.yaml
     - xebialabs/xlr-stash-template.yaml
+    - xebialabs/xlr-pullrequest.yaml
