@@ -4,7 +4,7 @@ kind: Templates
 spec:
 - directory: bitbucket
   children:
-  - template: pr
+  - template: PullRequest
     scheduledStartDate: 2020-01-06T14:00:00Z
     releaseTriggers:
     - name: Stash Trigger
@@ -27,7 +27,8 @@ spec:
         project: TEST
         repository: demo
         source: mydev
-        description: Trigger
+        ^title: My new Pull Request
+        ^description: My pull request not from a trigger
         variableMapping:
           pythonScript.prid: ${pullRequest}
       - name: Approve PR
@@ -46,7 +47,7 @@ spec:
         prid: ${pullRequest}
       - name: gate
         type: xlrelease.GateTask
-        precondition: False
+        precondition:  "False"
     variables:
     - type: xlrelease.StringVariable
       key: pullRequest
@@ -79,7 +80,7 @@ spec:
       type: xlrelease.TimelineTile
     - name: Release health
       type: xlrelease.ReleaseHealthTile
-    parentTemplate: pr
+    parentTemplate: PullRequest
   - type: xlrelease.Dashboard
     owner: admin
     tiles:

@@ -9,6 +9,7 @@
 #
 from stash.Stash import StashClient
 import org.slf4j.LoggerFactory as LoggerFactory
+import org.slf4j.Logger as Logger
 
 logger = LoggerFactory.getLogger("Stash")
 stash = StashClient.get_client(server, username, password)
