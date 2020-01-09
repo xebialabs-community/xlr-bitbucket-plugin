@@ -13,8 +13,8 @@ import sys
 import json
 
 def findNewCommit(oldCommitMap, newCommitMap):
-    branch = ""
-    commitId = ""
+    branch = None
+    commitId = None
 
     # loop over new map branches
     for newBranch, newCommitId in newCommitMap.iteritems():
@@ -75,6 +75,6 @@ else:
 
         branch, commitId = findNewCommit(oldCommit, newCommit)
 
-        if not branchName or (branchName and branchName == branch ):
+        if branch and commitId:
             triggerState = newTriggerState
             print("Bitbucket triggered release for %s-%s" % (branch, commitId))
