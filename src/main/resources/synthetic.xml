@@ -191,6 +191,7 @@
     -->
     <type type="stash.Task" extends="xlrelease.PythonScript" virtual="true">
         <property name="server" category="input" label="Stash Authentication" referenced-type="stash.Server" kind="ci" required="true" description="Stash Authentication."/>
+        <property name="classReload" category="input" default="true" hidden="true" kind="boolean"/>
         <property name="username" category="input" default="" required="false" description="Custom username to override global server configuration"/>
         <property name="password" category="input" default="" required="false" password="true" description="Custom password to override global server configuration"/>
         <property name="project" category="input" description="Project key" label="Project Key"/>
