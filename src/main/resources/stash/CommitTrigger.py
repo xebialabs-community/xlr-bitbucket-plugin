@@ -8,7 +8,7 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-
+import org.slf4j.LoggerFactory as LoggerFactory
 import sys
 import json
 
@@ -34,6 +34,7 @@ def findNewCommit(oldCommitMap, newCommitMap):
 
     return branch, commitId
 
+logger = LoggerFactory.getLogger("stash")
 if server is None:
     print "No Bitbucket server provided."
     sys.exit(1)
@@ -60,9 +61,11 @@ else:
     newCommit = {}
     for branch in info["values"]:
         if branch["displayId"] not in excludeBranches.strip(" ").strip(",").split(","):
-            branchid = branch["displayId"]
-            lastcommit = branch["latestCommit"]
-            newCommit[branchid] = lastcommit
+            if (branchName is None) or (branch["displayId"] == branchName):
+                logger.error("branchName = %s" % branchName)
+                branchid = branch["displayId"]
+                lastcommit = branch["latestCommit"]
+                newCommit[branchid] = lastcommit
 
     # trigger state is perisisted as json
     newTriggerState = json.dumps(newCommit)
