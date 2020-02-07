@@ -11,32 +11,40 @@
 
 from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 from java.util import HashMap
-
+import sys
+import json
+import ast
 
 def handle_request(event, template_filter = None):
 
-    print event
-    print template_filter
-    logger.info(str(event))
-    #try:
-    #    if event["push"]:
-    #        logger.info("Found push event for template %s " % template_filter)
-    #        handle_push_event(event, template_filter)
-    #except:
-    #    e = sys.exc_info()[1]
-    #    msg = ("Could not parse payload, check your Bitbucket Webhook "
-    #           "configuration. Error: %s. Payload:\n%s" % (e, event))
-    #    logger.warn(msg)
-    #    return
+    logger.info(json.dumps(event, indent=4, sort_keys=True))
+    try:
+        if event["pullRequest"]:
+            logger.info("Found push event for template %s " % template_filter)
+            logger.info(json.dumps(event['pullRequest'], indent=4, sort_keys=True))
+            handle_push_event(event['pullRequest'], template_filter)
+    except:
+        e = sys.exc_info()[1]
+        msg = ("Could not parse payload, check your Bitbucket Webhook "
+               "configuration. Error: %s. Payload:\n%s" % (e, event))
+        logger.warn(msg)
+        return
 
 def handle_push_event(event, template_filter):
-    proj_name = event['proj']
-    repo_name = event["repository"]
-    pr_number = event['pr_number']
-    pr_title = event['pr_title']
-    comment = event['comment']
-    source_hash = event['source_hash']
-    target_hash = event['target_hash']
+    proj_name = event['fromRef']['repository']['project']['key']
+    logger.debug("proj_name = %s" % proj_name)
+    repo_name = event['fromRef']["repository"]['name']
+    logger.debug("repo_name = %s" % repo_name)
+    pr_number = event['id']
+    logger.debug("pr_number = %s" % pr_number)
+    pr_title = event['title']
+    logger.debug("pr_title = %s" % pr_title)
+    comment = event['title']
+    logger.debug("comment = %s" % comment)
+    source_hash = event['fromRef']['latestCommit']
+    logger.debug("source_hash = %s" % source_hash)
+    target_hash = event['toRef']['latestCommit']
+    logger.debug("target_hash = %s" % target_hash)
     start_pr_release(proj_name, repo_name, pr_number, pr_title, comment, source_hash,target_hash, template_filter)
 
 
