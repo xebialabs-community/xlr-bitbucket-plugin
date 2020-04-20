@@ -229,10 +229,11 @@
         <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds" label="Poll Interval"/>
     </type>
 
-    <type type="stash.TagRelease" extends="stash.Task" >
-        <property name="tagname" category="input" description="Release Tag" label="Release Tag Name"/>
-        <property name="message" category="input" description="Release Tag message" label="Release Tag Message"/>
-        <property name="branch"  category="input" description="Branch to Tag" default="master"/>
+    <type type="stash.TagRelease" extends="stash.Task">
+        <property name="tagname" category="input" label="Release Tag Name"/>
+        <property name="message" category="input" label="Release Tag Message" required="false"/>
+        <property name="branch" category="input" label="Branch name" description="Branch to tag (do not include refs/heads/ prefix)" required="false"/>
+        <property name="commitId" category="input" description="Commit hash for the commit to tag (either short or long hash accepted)" required="false"/>
     </type>
 
     <type type="stash.Server" extends="configuration.HttpConnection">
