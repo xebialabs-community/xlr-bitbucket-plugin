@@ -17,3 +17,4 @@ metadata:
     - xebialabs/xlr-bitbucket-template.yaml
     - xebialabs/xlr-stash-template.yaml
     - xebialabs/xlr-pullrequest.yaml
+    - xebialabs/pr-webook.yaml

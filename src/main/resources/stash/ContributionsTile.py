@@ -9,13 +9,15 @@
 #
 from stash.Stash import StashClient
 import json
+import org.slf4j.LoggerFactory as LoggerFactory
 
+logger = LoggerFactory.getLogger("com.xebialabs.bitbucket-plugin")
 if ( server == "" or project == "" or slug == "" ):
     commits = []
 else:
     stash = StashClient.get_client(server, username, password)
     data = json.loads(stash.stash_querycommits(locals()))
-    commits = data['parents']
+    commits = data['values']
 
 authors = {}
 committers = {}

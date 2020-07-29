@@ -37,7 +37,7 @@ processResources.configure {
 
 license {
   header rootProject.file('License.md')
-  excludes(["**/*.json", "**/echarts.min.js", "**/youtrack/**/*.*"])
+  excludes(["**/*.json", "**/echarts.min.js", "**/data/**/*", "**/docker/**/**/*"])
   strictCheck false
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'XEBIALABS'

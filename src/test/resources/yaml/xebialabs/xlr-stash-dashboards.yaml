@@ -24,8 +24,8 @@ spec:
       row: 2
       col: 0
       server: stash
-      project: TEST
-      slug: demo
+      project: DEMO
+      slug: test
     - name: Stash Contributions Summary
       type: stash.ContributionsTile
       width: 2
@@ -33,9 +33,9 @@ spec:
       row: 0
       col: 4
       server: stash
-      project: TEST
-      slug: demo
-      branch: master
+      project: DEMO
+      slug: test
+      branch: 
       tag: ""
     - name: Stash Commits Timeline
       type: stash.TimelineTile
@@ -44,9 +44,9 @@ spec:
       row: 0
       col: 0
       server: stash
-      project: TEST
-      slug: demo
-      branch: master
+      project: DEMO
+      slug: test
+      branch: 
     - name: Stash Merge Requests Summary
       type: stash.MergeRequestsTile
       width: 2
@@ -54,6 +54,6 @@ spec:
       row: 2
       col: 4
       server: stash
-      project: TEST
-      slug: demo
-      target_branch: master
+      project: DEMO
+      slug: test
+      target_branch: 
