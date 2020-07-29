@@ -268,6 +268,7 @@ class StashClient(object):
         endpoint_get = "%s/?limit=%s" % (endpoint_get, variables['results_limit'])
         if ( variables['tag'] is not None ):
             endpoint_get = "%s&at=refs/tags/%s" % (endpoint_get, variables['tag'])
+        self.logger.warn("stash_querycommits->endpoint_get = %s " % endpoint_get)
         response = self.api_call('GET', endpoint_get, contentType="application/json", Origin = variables['server']['url'])
         data = response.getResponse()
         self.logger.warn( "endpint = %s" % endpoint_get )

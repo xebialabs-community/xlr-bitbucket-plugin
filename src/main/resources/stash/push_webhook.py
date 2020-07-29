@@ -11,38 +11,48 @@
 
 from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 from java.util import HashMap
+import json
+import sys
 
 
 def handle_request(event, template_filter = None):
 
     print event
     print template_filter
-    logger.info(str(event))
-    #try:
-    #    if event["push"]:
-    #        logger.info("Found push event for template %s " % template_filter)
-    #        handle_push_event(event, template_filter)
-    #except:
-    #    e = sys.exc_info()[1]
-    #    msg = ("Could not parse payload, check your Bitbucket Webhook "
-    #           "configuration. Error: %s. Payload:\n%s" % (e, event))
-    #    logger.warn(msg)
-    #    return
+    logger.info(json.dumps(event, indent=4, sort_keys=True))
+    try:
+        # event["eventKey"] == "repo:refs_changed"
+        if event["eventKey"]:
+            logger.info("Found push event for template %s " % template_filter)
+            handle_push_event(event, template_filter)
+    except:
+        e = sys.exc_info()[1]
+        msg = ("Could not parse payload, check your Bitbucket Webhook "
+               "configuration. Error: %s. Payload:\n%s" % (e, event))
+        logger.warn(msg)
+        return
 
 def handle_push_event(event, template_filter):
-    repo_full_name = event["repository"]["full_name"]
-    changes =  event["push"]["changes"]
-    for change in changes:
-        if change["new"] and change["new"]["type"] == "branch":
-            logger.info(" Handing new branch creation event for template %s " % template_filter)
-            branch_name = change["new"]["name"]
-            current_commit_hash = change["new"]["target"]["hash"]
-            logger.info("Starting release for new branch %s in repository %s from template %s" % ( repo_full_name, branch_name, template_filter))
-            start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter)
+    proj_name = event['repository']['project']['key']
+    logger.info("proj_name = %s" % proj_name)
+    branch_name = event['changes'][0]['ref']['displayId']
+    repo_name = event["repository"]['name']
+    logger.info("repo_name = %s" % repo_name)
+    source_hash = event['changes'][0]['fromHash']
+    logger.info("source_hash = %s" % source_hash)
+    target_hash = event['changes'][0]['toHash']
+    logger.info("target_hash = %s" % target_hash)
+    event_key = event['eventKey']
+    logger.info("eventKey = %s" % event_key)
+    repo_full_name = "%s/%s" % ( proj_name, repo_name )
+    logger.info("repo_full_name = %s" % repo_full_name)
+
+    logger.info("Starting release for new branch %s in repository %s from template %s" % ( branch_name, repo_full_name, template_filter))
+    start_new_branch_release(repo_full_name, branch_name, source_hash, target_hash, template_filter)
 
 
 
-def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, template_filter = None):
+def start_new_branch_release(repo_full_name, branch_name, source_hash, target_hash, template_filter = None):
     templates = templateApi.getTemplates(template_filter)
     if not templates:
         raise Exception('Could not find any templates by tag [pull_request_merger]. '
@@ -53,15 +63,16 @@ def start_new_branch_release(repo_full_name, branch_name, current_commit_hash, t
         template_id = templates[0].id
 
     params = StartRelease()
-    params.setReleaseTitle("Release for BRANCH: %s/%s" % (repo_full_name,branch_name))
+    params.setReleaseTitle("Release for: %s/%s" % (repo_full_name,branch_name))
     variables = HashMap()
-    variables.put('${repo_full_name}', '%s' % repo_full_name)
-    variables.put('${branch_name}', '%s' % branch_name)
-    variables.put('${current_commit_hash}', '%s' % current_commit_hash)
+    variables.put('repo_full_name', '%s' % repo_full_name)
+    variables.put('branch_name', '%s' % branch_name)
+    variables.put('fromHash', '%s' % source_hash)
+    variables.put('toHash', '%s' % target_hash)
     params.setReleaseVariables(variables)
     started_release = templateApi.start(template_id, params)
     response.entity = started_release
-    logger.info("Started Release %s for BRANCH: %s/%s" % (started_release.getId(), repo_full_name, branch_name))
+    logger.info("Started Release %s for: %s/%s" % (started_release.getId(), repo_full_name, branch_name))
 
 
 def start_pr_release(repo_full_name, pr_number, pr_title, comment):

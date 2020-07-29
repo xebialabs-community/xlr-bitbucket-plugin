@@ -14,3 +14,4 @@ secrets.xlvals
 supervisord.*
 xlr-bitbucket-plugin.iml
 deploy_key
+test

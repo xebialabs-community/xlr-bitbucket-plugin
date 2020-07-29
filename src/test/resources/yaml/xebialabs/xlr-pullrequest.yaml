@@ -27,6 +27,7 @@ spec:
       branchName: mydev
       commitId: 9461da526022f28746c970ae02236994e0965f6e
       branch: "22"
+      enabled: False
     phases:
     - phase: New Phase
       tasks:
