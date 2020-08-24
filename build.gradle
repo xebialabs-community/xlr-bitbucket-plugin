@@ -29,15 +29,17 @@ if (!project.hasProperty('release.useLastTag')) {
 }
 
 processResources.configure {
-  filter ReplaceTokens, tokens: [
-    'project.version': version.toString(),
-    'project.name'   : rootProject.name
-  ]
+  filesNotMatching(['**/*.png']) {
+    filter ReplaceTokens, tokens: [
+      'project.version': version.toString(),
+      'project.name'   : rootProject.name
+    ]
+  }
 }
 
 license {
   header rootProject.file('License.md')
-  excludes(["**/*.json", "**/echarts.min.js", "**/data/**/*", "**/docker/**/**/*"])
+  excludes(["**/*.json", "**/echarts.min.js", "**/data/**/*", "**/docker/**/**/*", "**/vendor/*"])
   strictCheck false
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'XEBIALABS'
