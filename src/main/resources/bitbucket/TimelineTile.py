@@ -16,9 +16,12 @@ import org.slf4j.Logger as Logger
 import org.slf4j.LoggerFactory as LoggerFactory
 
 logger = LoggerFactory.getLogger("com.xebialabs.bitbucket-plugin")
+
+
 def convertRFC3339ToDate(timestamp):
     zonedDateTime = ZonedDateTime.parse(timestamp)
     return zonedDateTime.toLocalDate()
+
 
 bitbucket = BitbucketClient.get_client(server, username, password)
 commits = bitbucket.bitbucket_querycommits(locals())
@@ -26,7 +29,7 @@ commits = bitbucket.bitbucket_querycommits(locals())
 # Compile data for summary view
 commitsByDay = {}
 for commit in commits:
-    logger.warn("commit date %s" % commit['date'])
+    logger.warn("commit date %s" % commit["date"])
     commitDate = convertRFC3339ToDate(commit["date"])
     if commitDate in commitsByDay.keys():
         commitsByDay[commitDate] += 1
@@ -48,8 +51,4 @@ while startDate.isBefore(endDate.plusDays(1)):
         commitsEachDay.append(0)
     startDate = startDate.plusDays(1)
 
-data = {
-    "dates": days,
-    "commitsEachDay": commitsEachDay,
-    "commits": commits
-}
+data = {"dates": days, "commitsEachDay": commitsEachDay, "commits": commits}

@@ -10,12 +10,12 @@
 from bitbucket.Bitbucket import BitbucketClient
 import json
 
-if ( server == "" or repo_full_name == "" ):
+if server == "" or repo_full_name == "":
     values = []
-    data = {"commits": values }
+    data = {"commits": values}
 else:
     bitbucket = BitbucketClient.get_client(server, username, password)
-    data = bitbucket.bitbucket_querycommits( locals() )
+    data = bitbucket.bitbucket_querycommits(locals())
     commits = data
 
 authors = {}
@@ -23,23 +23,28 @@ committers = {}
 people = []
 for commit in commits:
     print "commit: %s" % json.dumps(commit, indent=4, sort_keys=True)
-    if commit['author']['user']['nickname'] in authors.keys():
-        authors[commit['author']['user']['nickname']] += 1
+    if commit["author"]["user"]["nickname"] in authors.keys():
+        authors[commit["author"]["user"]["nickname"]] += 1
     else:
-        authors[commit['author']['user']['nickname']] = 1
-    if commit['author']['user']['nickname'] not in people:
-        people.append(commit['author']['user']['nickname'])
+        authors[commit["author"]["user"]["nickname"]] = 1
+    if commit["author"]["user"]["nickname"] not in people:
+        people.append(commit["author"]["user"]["nickname"])
 
-    if commit['author']['user']['nickname'] in committers.keys():
-        committers[commit['author']['user']['nickname']] += 1
+    if commit["author"]["user"]["nickname"] in committers.keys():
+        committers[commit["author"]["user"]["nickname"]] += 1
     else:
-        committers[commit['author']['user']['nickname']] = 1
-    if commit['author']['user']['nickname'] not in people:
-        people.append(commit['author']['user']['nickname'])
+        committers[commit["author"]["user"]["nickname"]] = 1
+    if commit["author"]["user"]["nickname"] not in people:
+        people.append(commit["author"]["user"]["nickname"])
 
 data = {
     "commits": commits,
-    "authors": [{"name":author,"value":authors[author]} for author in authors.keys()],
-    "committers": [{"name":committer,"value":committers[committer]} for committer in committers.keys()],
-    "people": people
+    "authors": [
+        {"name": author, "value": authors[author]} for author in authors.keys()
+    ],
+    "committers": [
+        {"name": committer, "value": committers[committer]}
+        for committer in committers.keys()
+    ],
+    "people": people,
 }

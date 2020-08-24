@@ -12,35 +12,40 @@ import json
 import org.slf4j.LoggerFactory as LoggerFactory
 
 logger = LoggerFactory.getLogger("com.xebialabs.bitbucket-plugin")
-if ( server == "" or project == "" or slug == "" ):
+if server == "" or project == "" or slug == "":
     commits = []
 else:
     stash = StashClient.get_client(server, username, password)
     data = json.loads(stash.stash_querycommits(locals()))
-    commits = data['values']
+    commits = data["values"]
 
 authors = {}
 committers = {}
 people = []
 for commit in commits:
     print "commit: %s" % commit
-    if commit['author']['name'] in authors.keys():
-        authors[commit['author']['name']] += 1
+    if commit["author"]["name"] in authors.keys():
+        authors[commit["author"]["name"]] += 1
     else:
-        authors[commit['author']['name']] = 1
-    if commit['author']['name'] not in people:
-        people.append(commit['author']['name'])
+        authors[commit["author"]["name"]] = 1
+    if commit["author"]["name"] not in people:
+        people.append(commit["author"]["name"])
 
-    if commit['committer']['name'] in committers.keys():
-        committers[commit['committer']['name']] += 1
+    if commit["committer"]["name"] in committers.keys():
+        committers[commit["committer"]["name"]] += 1
     else:
-        committers[commit['committer']['name']] = 1
-    if commit['committer']['name'] not in people:
-        people.append(commit['committer']['name'])
+        committers[commit["committer"]["name"]] = 1
+    if commit["committer"]["name"] not in people:
+        people.append(commit["committer"]["name"])
 
 data = {
     "commits": commits,
-    "authors": [{"name":author,"value":authors[author]} for author in authors.keys()],
-    "committers": [{"name":committer,"value":committers[committer]} for committer in committers.keys()],
-    "people": people
+    "authors": [
+        {"name": author, "value": authors[author]} for author in authors.keys()
+    ],
+    "committers": [
+        {"name": committer, "value": committers[committer]}
+        for committer in committers.keys()
+    ],
+    "people": people,
 }

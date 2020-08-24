@@ -15,7 +15,7 @@ import json
 import sys
 
 
-def handle_request(event, template_filter = None):
+def handle_request(event, template_filter=None):
 
     print event
     print template_filter
@@ -27,75 +27,100 @@ def handle_request(event, template_filter = None):
             handle_push_event(event, template_filter)
     except:
         e = sys.exc_info()[1]
-        msg = ("Could not parse payload, check your Bitbucket Webhook "
-               "configuration. Error: %s. Payload:\n%s" % (e, event))
+        msg = (
+            "Could not parse payload, check your Bitbucket Webhook "
+            "configuration. Error: %s. Payload:\n%s" % (e, event)
+        )
         logger.warn(msg)
         return
 
+
 def handle_push_event(event, template_filter):
-    proj_name = event['repository']['project']['key']
+    proj_name = event["repository"]["project"]["key"]
     logger.info("proj_name = %s" % proj_name)
-    branch_name = event['changes'][0]['ref']['displayId']
-    repo_name = event["repository"]['name']
+    branch_name = event["changes"][0]["ref"]["displayId"]
+    repo_name = event["repository"]["name"]
     logger.info("repo_name = %s" % repo_name)
-    source_hash = event['changes'][0]['fromHash']
+    source_hash = event["changes"][0]["fromHash"]
     logger.info("source_hash = %s" % source_hash)
-    target_hash = event['changes'][0]['toHash']
+    target_hash = event["changes"][0]["toHash"]
     logger.info("target_hash = %s" % target_hash)
-    event_key = event['eventKey']
+    event_key = event["eventKey"]
     logger.info("eventKey = %s" % event_key)
-    repo_full_name = "%s/%s" % ( proj_name, repo_name )
+    repo_full_name = "%s/%s" % (proj_name, repo_name)
     logger.info("repo_full_name = %s" % repo_full_name)
 
-    logger.info("Starting release for new branch %s in repository %s from template %s" % ( branch_name, repo_full_name, template_filter))
-    start_new_branch_release(repo_full_name, branch_name, source_hash, target_hash, template_filter)
+    logger.info(
+        "Starting release for new branch %s in repository %s from template %s"
+        % (branch_name, repo_full_name, template_filter)
+    )
+    start_new_branch_release(
+        repo_full_name, branch_name, source_hash, target_hash, template_filter
+    )
 
 
-
-def start_new_branch_release(repo_full_name, branch_name, source_hash, target_hash, template_filter = None):
+def start_new_branch_release(
+    repo_full_name, branch_name, source_hash, target_hash, template_filter=None
+):
     templates = templateApi.getTemplates(template_filter)
     if not templates:
-        raise Exception('Could not find any templates by tag [pull_request_merger]. '
-                        'Did the xlr-development-workflow-plugin initializer run?')
+        raise Exception(
+            "Could not find any templates by tag [pull_request_merger]. "
+            "Did the xlr-development-workflow-plugin initializer run?"
+        )
     else:
         if len(templates) > 1:
-            logger.warn("Found more than one template with tag '%s', using the first one" % template_filter)
+            logger.warn(
+                "Found more than one template with tag '%s', using the first one"
+                % template_filter
+            )
         template_id = templates[0].id
 
     params = StartRelease()
-    params.setReleaseTitle("Release for: %s/%s" % (repo_full_name,branch_name))
+    params.setReleaseTitle("Release for: %s/%s" % (repo_full_name, branch_name))
     variables = HashMap()
-    variables.put('repo_full_name', '%s' % repo_full_name)
-    variables.put('branch_name', '%s' % branch_name)
-    variables.put('fromHash', '%s' % source_hash)
-    variables.put('toHash', '%s' % target_hash)
+    variables.put("repo_full_name", "%s" % repo_full_name)
+    variables.put("branch_name", "%s" % branch_name)
+    variables.put("fromHash", "%s" % source_hash)
+    variables.put("toHash", "%s" % target_hash)
     params.setReleaseVariables(variables)
     started_release = templateApi.start(template_id, params)
     response.entity = started_release
-    logger.info("Started Release %s for: %s/%s" % (started_release.getId(), repo_full_name, branch_name))
+    logger.info(
+        "Started Release %s for: %s/%s"
+        % (started_release.getId(), repo_full_name, branch_name)
+    )
 
 
 def start_pr_release(repo_full_name, pr_number, pr_title, comment):
-    tag = 'pull_request_merger'
+    tag = "pull_request_merger"
     pr_templates = templateApi.getTemplates(tag)
     if not pr_templates:
-        raise Exception('Could not find any templates by tag [pull_request_merger]. '
-                        'Did the xlr-development-workflow-plugin initializer run?')
+        raise Exception(
+            "Could not find any templates by tag [pull_request_merger]. "
+            "Did the xlr-development-workflow-plugin initializer run?"
+        )
     else:
         if len(pr_templates) > 1:
-            logger.warn("Found more than one template with tag '%s', using the first one" % tag)
+            logger.warn(
+                "Found more than one template with tag '%s', using the first one" % tag
+            )
         template_id = pr_templates[0].id
 
     params = StartRelease()
-    params.setReleaseTitle('Merge PR #%s: %s' % (pr_number, pr_title))
+    params.setReleaseTitle("Merge PR #%s: %s" % (pr_number, pr_title))
     variables = HashMap()
-    variables.put('${pull_request_number}', '%s' % pr_number)
-    variables.put('${pull_request_title}', '%s' % pr_title)
-    variables.put('${repository_full_name}', '%s' % repo_full_name)
-    variables.put('${pull_request_comment}', '%s' % comment)
+    variables.put("${pull_request_number}", "%s" % pr_number)
+    variables.put("${pull_request_title}", "%s" % pr_title)
+    variables.put("${repository_full_name}", "%s" % repo_full_name)
+    variables.put("${pull_request_comment}", "%s" % comment)
     params.setReleaseVariables(variables)
     started_release = templateApi.start(template_id, params)
     response.entity = started_release
-    logger.info("Started release %s to merge pull request %s" % (started_release.getId(), pr_number))
+    logger.info(
+        "Started release %s to merge pull request %s"
+        % (started_release.getId(), pr_number)
+    )
 
-handle_request(request.entity, request.query['template'])
+
+handle_request(request.entity, request.query["template"])

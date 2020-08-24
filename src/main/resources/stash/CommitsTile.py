@@ -7,13 +7,13 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-#reload(stash.Stash)
+# reload(stash.Stash)
 from stash.Stash import StashClient
 import json
 
-if ( server == "" or project == "" or slug == "" ):
+if server == "" or project == "" or slug == "":
     values = []
-    data = {"commits": values }
+    data = {"commits": values}
     exit(0)
 
 stash = StashClient.get_client(server, username, password)

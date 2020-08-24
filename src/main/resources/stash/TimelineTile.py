@@ -13,19 +13,23 @@ import json
 import time
 from java.time import LocalDate, ZonedDateTime
 
+
 def convertRFC3339ToDate(timestamp):
     zonedDateTime = ZonedDateTime.parse(timestamp)
     return zonedDateTime.toLocalDate()
 
+
 stash = StashClient.get_client(server, username, password)
 data = json.loads(stash.stash_querycommits(locals()))
-commits = data['values']
+commits = data["values"]
 
 # Compile data for summary view
 commitsByDay = {}
 for commit in commits:
-    #commitDate = convertRFC3339ToDate(commit["committerTimestamp"])
-    stringDate = time.strftime("%Y-%m-%dT%H:%M:%S.00Z", time.localtime(commit["committerTimestamp"]/1000))
+    # commitDate = convertRFC3339ToDate(commit["committerTimestamp"])
+    stringDate = time.strftime(
+        "%Y-%m-%dT%H:%M:%S.00Z", time.localtime(commit["committerTimestamp"] / 1000)
+    )
     commitDate = convertRFC3339ToDate(stringDate)
     if commitDate in commitsByDay.keys():
         commitsByDay[commitDate] += 1
@@ -47,8 +51,4 @@ while startDate.isBefore(endDate.plusDays(1)):
         commitsEachDay.append(0)
     startDate = startDate.plusDays(1)
 
-data = {
-    "dates": days,
-    "commitsEachDay": commitsEachDay,
-    "commits": commits
-}
+data = {"dates": days, "commitsEachDay": commitsEachDay, "commits": commits}

@@ -10,11 +10,11 @@
 from stash.Stash import StashClient
 import json
 
-if ( server == "" or project == "" or slug == "" ):
+if server == "" or project == "" or slug == "":
     values = []
-    data = {"merge_requests": values }
+    data = {"merge_requests": values}
 else:
     stash = StashClient.get_client(server, username, password)
     data = stash.stash_querymergerequests(locals())
     data = {"merge_requests": json.loads(data)}
-    #data = stash.stash_querymergerequests(locals())
+    # data = stash.stash_querymergerequests(locals())

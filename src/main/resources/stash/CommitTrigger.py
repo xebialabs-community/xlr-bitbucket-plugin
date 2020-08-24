@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory as LoggerFactory
 import sys
 import json
 
+
 def findNewCommit(oldCommitMap, newCommitMap):
     branch = None
     commitId = None
@@ -34,6 +35,7 @@ def findNewCommit(oldCommitMap, newCommitMap):
 
     return branch, commitId
 
+
 logger = LoggerFactory.getLogger("stash")
 if server is None:
     print "No Bitbucket server provided."
@@ -42,16 +44,21 @@ if server is None:
 request = HttpRequest(server, username, password)
 context = "/rest/api/1.0/projects/%s/repos/%s" % (project, repository)
 branches_path = "%s/%s?limit=1000" % (context, "branches")
-response = request.get(branches_path, contentType = 'application/json')
+response = request.get(branches_path, contentType="application/json")
 
 if not response.isSuccessful():
     if response.status == 404 and triggerOnInitialPublish:
-        print "Repository '%s:%s' not found in bitbucket. Ignoring." % (project, repository)
+        print "Repository '%s:%s' not found in bitbucket. Ignoring." % (
+            project,
+            repository,
+        )
 
         if not triggerState:
-            branch = commitId = triggerState = 'unknown'
+            branch = commitId = triggerState = "unknown"
     else:
-        print "Failed to fetch branch information from Bitbucket server %s" % server['url']
+        print "Failed to fetch branch information from Bitbucket server %s" % server[
+            "url"
+        ]
         response.errorDump()
     sys.exit(1)
 else:
@@ -80,4 +87,4 @@ else:
 
         if branch and commitId:
             triggerState = newTriggerState
-            print("Bitbucket triggered release for %s-%s" % (branch, commitId))
+            print ("Bitbucket triggered release for %s-%s" % (branch, commitId))

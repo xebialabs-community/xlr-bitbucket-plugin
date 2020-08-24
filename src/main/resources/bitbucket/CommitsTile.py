@@ -11,14 +11,16 @@
 from bitbucket.Bitbucket import BitbucketClient
 import json
 
-if ( server == "" or repo_full_name == "" ):
+if server == "" or repo_full_name == "":
     values = []
-    data = {"commits": values }
+    data = {"commits": values}
     exit(0)
 
-def getCommits( variables ):
-    bitbucket = BitbucketClient.get_client(server, username, password)
-    results = bitbucket.bitbucket_querycommits( variables )
-    return {"commits": {"parents": results } }
 
-data = getCommits( locals() )
+def getCommits(variables):
+    bitbucket = BitbucketClient.get_client(server, username, password)
+    results = bitbucket.bitbucket_querycommits(variables)
+    return {"commits": {"parents": results}}
+
+
+data = getCommits(locals())

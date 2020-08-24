@@ -10,10 +10,10 @@
 from bitbucket.Bitbucket import BitbucketClient
 import json
 
-if ( server == "" or repo_full_name == "" ):
+if server == "" or repo_full_name == "":
     values = []
-    data = {"merge_requests": values }
+    data = {"merge_requests": values}
 else:
     bitbucket = BitbucketClient.get_client(server, username, password)
-    data = bitbucket.bitbucket_querymergerequests( locals() )
+    data = bitbucket.bitbucket_querymergerequests(locals())
     data = {"merge_requests": data}
