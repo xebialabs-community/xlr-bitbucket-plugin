@@ -8,7 +8,6 @@
 #
 import json, time, re
 from xlrelease.HttpRequest import HttpRequest
-from xlrelease.CredentialsFallback import CredentialsFallback
 from org.apache.http.client import ClientProtocolException
 from com.xebialabs.overthere import CmdLine
 from com.xebialabs.overthere.util import CapturingOverthereExecutionOutputHandler, OverthereUtils
@@ -23,8 +22,10 @@ import org.slf4j.LoggerFactory as LoggerFactory
 class StashClient(object):
     def __init__(self, server, username, password):
         self.logger = LoggerFactory.getLogger("com.xebialabs.bitbucket-plugin")
-        creds = CredentialsFallback(server, username, password).getCredentials()
-        self.http_request = HttpRequest(server, creds['username'], creds['password'])
+        if username not in [None, ""] or password not in [None, ""]:
+            self.http_request = HttpRequest(server, username, password)
+        else:
+            self.http_request = HttpRequest(server)
 
     @staticmethod
     def get_client(server, username, password):
@@ -37,7 +38,6 @@ class StashClient(object):
         return result_output
 
     def api_call(self, method, endpoint, **options):
-
         try:
             options['method'] = method.upper()
             options['context'] = endpoint
