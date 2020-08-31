@@ -435,17 +435,16 @@ class StashClient(object):
         results = {"output": data, "commitList": commitList}
         return results
 
-    # Requires the stash archive plugin installed
     def stash_querycommits(self, variables):
         endpoint_get = "/rest/api/1.0/projects/%s/repos/%s/commits" % (
             variables["project"],
             variables["slug"],
         )
+        endpoint_get = "%s?limit=%s" % (endpoint_get, variables["results_limit"])
         if variables["branch"] is not None:
-            endpoint_get = "%s/%s" % (endpoint_get, variables["branch"])
-        endpoint_get = "%s/?limit=%s" % (endpoint_get, variables["results_limit"])
+            endpoint_get += "&until=%s" % variables["branch"]
         if variables["tag"] is not None:
-            endpoint_get = "%s&at=refs/tags/%s" % (endpoint_get, variables["tag"])
+            endpoint_get += "&at=refs/tags/%s" % variables["tag"]
         self.logger.warn("stash_querycommits->endpoint_get = %s " % endpoint_get)
         response = self.api_call(
             "GET",

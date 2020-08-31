@@ -17,4 +17,4 @@ if server == "" or project == "" or slug == "":
     exit(0)
 
 stash = StashClient.get_client(server, username, password)
-data = {"commits": json.loads(stash.stash_querycommits(locals()))}
+data = {"commits": json.loads(stash.stash_querycommits(locals()))["values"]}
