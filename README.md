@@ -16,6 +16,9 @@
 [xlr-bitbucket-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-bitbucket-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-bitbucket-plugin/total.svg
 
+The XLR Bitbucket plugin is deprecated now as the plugin is insourced to xebialabs organization.
+The plugin is available on https://dist.xebialabs.com/customer/xl-release/plugins/xlr-bitbucket-plugin
+
 This plugin offers an interface from XL Release to Atlassian Stash (now Bitbucket Server) and Bitbucket Cloud API.
 
 #### IMPORTANT ####
